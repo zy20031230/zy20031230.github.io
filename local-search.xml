@@ -4,9 +4,47 @@
   
   
   <entry>
+    <title>NLP_huggingface</title>
+    <link href="/2023/08/20/NLP/"/>
+    <url>/2023/08/20/NLP/</url>
+    
+    <content type="html"><![CDATA[<h1 id="NLP"><a href="#NLP" class="headerlink" title="NLP"></a>NLP</h1><h3 id="unigram-tokenization"><a href="#unigram-tokenization" class="headerlink" title="unigram tokenization"></a>unigram tokenization</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">encode_word</span>(<span class="hljs-params">word, model</span>):<br>    best_segmentations = [&#123;<span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">1</span>&#125;] + [<br>        &#123;<span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-literal">None</span>, <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-literal">None</span>&#125; <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(word))<br>    ]<br>    <span class="hljs-comment">#至少每一种字长都有留下来对应的一个值.同时在位次上对应END,里面的start对应了在这个END中,在哪里有最好的分词的方法.</span><br>    <span class="hljs-keyword">for</span> start_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(word)):<br>        <span class="hljs-comment"># This should be properly filled by the previous steps of the loop</span><br>        best_score_at_start = best_segmentations[start_idx][<span class="hljs-string">&quot;score&quot;</span>]<br>        <span class="hljs-keyword">for</span> end_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(start_idx + <span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(word) + <span class="hljs-number">1</span>):<br>            token = word[start_idx:end_idx] <span class="hljs-comment"># toke截取了一组值,之后通过查表进行比较</span><br>            <span class="hljs-keyword">if</span> token <span class="hljs-keyword">in</span> model <span class="hljs-keyword">and</span> best_score_at_start <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                score = model[token] + best_score_at_start<br>                <span class="hljs-comment"># If we have found a better segmentation ending at end_idx, we update</span><br>                <span class="hljs-keyword">if</span> (<br>                    best_segmentations[end_idx][<span class="hljs-string">&quot;score&quot;</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span><br>                    <span class="hljs-keyword">or</span> best_segmentations[end_idx][<span class="hljs-string">&quot;score&quot;</span>] &gt; score<br>                ):<br>                <span class="hljs-comment">#这里取的是-log相当于是一个递减的函数,如果频率高,反而得到的值越低,所以这里选择高频率的留下,</span><br>                <span class="hljs-comment">#关于继承前面的值,这里的含义指的是:start end都含有一定的值,start的分词+新增的词块频率够高的情况才更新END的模块</span><br>                <span class="hljs-comment">#下面对应了两种情况,一种是后续没有end_idx直接打上标签 另一种是在当前的start + 增的 比后续的低则更改??</span><br>                    best_segmentations[end_idx] = &#123;<span class="hljs-string">&quot;start&quot;</span>: start_idx, <span class="hljs-string">&quot;score&quot;</span>: score&#125;<br><br>    segmentation = best_segmentations[-<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">if</span> segmentation[<span class="hljs-string">&quot;score&quot;</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-comment"># We did not find a tokenization of the word -&gt; unknown</span><br>        <span class="hljs-keyword">return</span> [<span class="hljs-string">&quot;&lt;unk&gt;&quot;</span>], <span class="hljs-literal">None</span><br><br>    score = segmentation[<span class="hljs-string">&quot;score&quot;</span>]<br>    start = segmentation[<span class="hljs-string">&quot;start&quot;</span>]<br>    end = <span class="hljs-built_in">len</span>(word)<br>    tokens = []<br>    <span class="hljs-keyword">while</span> start != <span class="hljs-number">0</span>:<br>        tokens.insert(<span class="hljs-number">0</span>, word[start:end])<br>        next_start = best_segmentations[start][<span class="hljs-string">&quot;start&quot;</span>]<br>        end = start<br>        start = next_start<br>    tokens.insert(<span class="hljs-number">0</span>, word[start:end])<br>    <span class="hljs-keyword">return</span> tokens, score<br><span class="hljs-comment"># 但是为什么是最后的一个?</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>NLP_hug</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>c++_learn</title>
+    <link href="/2023/07/26/c-learn/"/>
+    <url>/2023/07/26/c-learn/</url>
+    
+    <content type="html"><![CDATA[<h1 id="c-语言的学习"><a href="#c-语言的学习" class="headerlink" title="c++语言的学习"></a>c++语言的学习</h1><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>通过class定义一种类似于结构体的东西,public表示外部可以调取,private定义内部可以调用.同时可以在内部声明一些函数,函数内部可以在外面完成.</p><h2 id="vector-容器"><a href="#vector-容器" class="headerlink" title="vector 容器"></a>vector 容器</h2><h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ol><li><strong>顺序性</strong>:顺序容器的元素是严格线性的,类似于数组</li><li>动态的数组,可以通过指针操作</li><li>可以感知内存的</li></ol><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>c++</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>测试</title>
-    <link href="/2023/07/20/%E6%B5%8B%E8%AF%95/"/>
-    <url>/2023/07/20/%E6%B5%8B%E8%AF%95/</url>
+    <link href="/2023/07/19/%E6%B5%8B%E8%AF%95/"/>
+    <url>/2023/07/19/%E6%B5%8B%E8%AF%95/</url>
     
     <content type="html"><![CDATA[<p>测试</p><p>引用方式</p><img src="/2023/07/20/%E6%B5%8B%E8%AF%95/%E6%88%AA%E5%B1%8F.png" class="" title="引用方式1">]]></content>
     

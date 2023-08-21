@@ -16,22 +16,22 @@
   <meta name="author" content="NGC6302">
   <meta name="keywords" content="">
   
-    <meta name="description" content="NLP_huggingfaceBASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start&amp;q">
+    <meta name="description" content="NLP_huggingface🤗BASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP_huggingface">
+<meta property="og:title" content="NLP_huggingface🤗">
 <meta property="og:url" content="http://example.com/2023/08/20/NLP/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="NLP_huggingfaceBASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start&amp;q">
+<meta property="og:description" content="NLP_huggingface🤗BASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-20T13:39:49.000Z">
-<meta property="article:modified_time" content="2023-08-21T03:52:16.270Z">
+<meta property="article:modified_time" content="2023-08-21T07:27:51.901Z">
 <meta property="article:author" content="NGC6302">
 <meta property="article:tag" content="NLP_hug">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>NLP_huggingface - Hexo</title>
+  <title>NLP_huggingface🤗 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="NLP_huggingface"></span>
+            <span id="subtitle" data-typed-text="NLP_huggingface🤗"></span>
           
         </div>
 
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.5k 字
+          7.2k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          46 分钟
+          60 分钟
         
       </span>
     
@@ -268,12 +268,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">NLP_huggingface</h1>
+            <h1 id="seo-header">NLP_huggingface🤗</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="NLP-huggingface"><a href="#NLP-huggingface" class="headerlink" title="NLP_huggingface"></a>NLP_huggingface</h1><h2 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h2><p>参考链接 <a target="_blank" rel="noopener" href="https://huggingface.co/learn/nlp-course/">NLP_course</a></p>
+                <h1 id="NLP-huggingface🤗"><a href="#NLP-huggingface🤗" class="headerlink" title="NLP_huggingface🤗"></a>NLP_huggingface🤗</h1><h2 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h2><p>参考链接 <a target="_blank" rel="noopener" href="https://huggingface.co/learn/nlp-course/">NLP_course</a></p>
 <h3 id="unigram-tokenization"><a href="#unigram-tokenization" class="headerlink" title="unigram tokenization"></a>unigram tokenization</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">encode_word</span>(<span class="hljs-params">word, model</span>):<br>    best_segmentations = [&#123;<span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-number">1</span>&#125;] + [<br>        &#123;<span class="hljs-string">&quot;start&quot;</span>: <span class="hljs-literal">None</span>, <span class="hljs-string">&quot;score&quot;</span>: <span class="hljs-literal">None</span>&#125; <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(word))<br>    ]<br>    <span class="hljs-comment">#至少每一种字长都有留下来对应的一个值.同时在位次上对应END,里面的start对应了在这个END中,在哪里有最好的分词的方法.</span><br>    <span class="hljs-keyword">for</span> start_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(word)):<br>        <span class="hljs-comment"># This should be properly filled by the previous steps of the loop</span><br>        best_score_at_start = best_segmentations[start_idx][<span class="hljs-string">&quot;score&quot;</span>]<br>        <span class="hljs-keyword">for</span> end_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(start_idx + <span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(word) + <span class="hljs-number">1</span>):<br>            token = word[start_idx:end_idx] <span class="hljs-comment"># toke截取了一组值,之后通过查表进行比较</span><br>            <span class="hljs-keyword">if</span> token <span class="hljs-keyword">in</span> model <span class="hljs-keyword">and</span> best_score_at_start <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                score = model[token] + best_score_at_start<br>                <span class="hljs-comment"># If we have found a better segmentation ending at end_idx, we update</span><br>                <span class="hljs-keyword">if</span> (<br>                    best_segmentations[end_idx][<span class="hljs-string">&quot;score&quot;</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span><br>                    <span class="hljs-keyword">or</span> best_segmentations[end_idx][<span class="hljs-string">&quot;score&quot;</span>] &gt; score<br>                ):<br>                <span class="hljs-comment">#这里取的是-log相当于是一个递减的函数,如果频率高,反而得到的值越低,所以这里选择高频率的留下,</span><br>                <span class="hljs-comment">#关于继承前面的值,这里的含义指的是:start end都含有一定的值,start的分词+新增的词块频率够高的情况才更新END的模块</span><br>                <span class="hljs-comment">#下面对应了两种情况,一种是后续没有end_idx直接打上标签 另一种是在当前的start + 增的 比后续的低则更改??</span><br>                    best_segmentations[end_idx] = &#123;<span class="hljs-string">&quot;start&quot;</span>: start_idx, <span class="hljs-string">&quot;score&quot;</span>: score&#125;<br><br>    segmentation = best_segmentations[-<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">if</span> segmentation[<span class="hljs-string">&quot;score&quot;</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-comment"># We did not find a tokenization of the word -&gt; unknown</span><br>        <span class="hljs-keyword">return</span> [<span class="hljs-string">&quot;&lt;unk&gt;&quot;</span>], <span class="hljs-literal">None</span><br><br>    score = segmentation[<span class="hljs-string">&quot;score&quot;</span>]<br>    start = segmentation[<span class="hljs-string">&quot;start&quot;</span>]<br>    end = <span class="hljs-built_in">len</span>(word)<br>    tokens = []<br>    <span class="hljs-keyword">while</span> start != <span class="hljs-number">0</span>:<br>        tokens.insert(<span class="hljs-number">0</span>, word[start:end])<br>        next_start = best_segmentations[start][<span class="hljs-string">&quot;start&quot;</span>]<br>        end = start<br>        start = next_start<br>    tokens.insert(<span class="hljs-number">0</span>, word[start:end])<br>    <span class="hljs-keyword">return</span> tokens, score<br><span class="hljs-comment"># 但是为什么是最后的一个?</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="MAIN-NLP-TASKS"><a href="#MAIN-NLP-TASKS" class="headerlink" title="MAIN NLP TASKS"></a>MAIN NLP TASKS</h2><h3 id="Token-classification"><a href="#Token-classification" class="headerlink" title="Token classification"></a>Token classification</h3><h4 id="preparing-the-data"><a href="#preparing-the-data" class="headerlink" title="preparing the data"></a>preparing the data</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br>raw_datasets = load_dataset(<span class="hljs-string">&quot;conll2003&quot;</span>)<br><br><span class="hljs-comment"># 数据形式</span><br><br>DatasetDict(&#123;<br>    train: Dataset(&#123;<br>        features: [<span class="hljs-string">&#x27;chunk_tags&#x27;</span>, <span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;ner_tags&#x27;</span>, <span class="hljs-string">&#x27;pos_tags&#x27;</span>, <span class="hljs-string">&#x27;tokens&#x27;</span>],<br>        num_rows: <span class="hljs-number">14041</span><br>    &#125;)<br>    validation: Dataset(&#123;<br>        features: [<span class="hljs-string">&#x27;chunk_tags&#x27;</span>, <span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;ner_tags&#x27;</span>, <span class="hljs-string">&#x27;pos_tags&#x27;</span>, <span class="hljs-string">&#x27;tokens&#x27;</span>],<br>        num_rows: <span class="hljs-number">3250</span><br>    &#125;)<br>    test: Dataset(&#123;<br>        features: [<span class="hljs-string">&#x27;chunk_tags&#x27;</span>, <span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;ner_tags&#x27;</span>, <span class="hljs-string">&#x27;pos_tags&#x27;</span>, <span class="hljs-string">&#x27;tokens&#x27;</span>],<br>        num_rows: <span class="hljs-number">3453</span><br>    &#125;)<br>&#125;)<br><span class="hljs-comment">#the last column is called tokens, but it contains words in the sense that these are pre-tokenized inputs that still need to go through the tokenizer for subword tokenization</span><br><br><span class="hljs-comment"># 数据形式</span><br>ner_feature = raw_datasets[<span class="hljs-string">&quot;train&quot;</span>].features[<span class="hljs-string">&quot;ner_tags&quot;</span>]<br><br><span class="hljs-type">Sequence</span>(feature=ClassLabel(num_classes=<span class="hljs-number">9</span>, names=[<span class="hljs-string">&#x27;O&#x27;</span>, <span class="hljs-string">&#x27;B-PER&#x27;</span>, <span class="hljs-string">&#x27;I-PER&#x27;</span>, <span class="hljs-string">&#x27;B-ORG&#x27;</span>, <span class="hljs-string">&#x27;I-ORG&#x27;</span>, <span class="hljs-string">&#x27;B-LOC&#x27;</span>, <span class="hljs-string">&#x27;I-LOC&#x27;</span>, <span class="hljs-string">&#x27;B-MISC&#x27;</span>, <span class="hljs-string">&#x27;I-MISC&#x27;</span>], names_file=<span class="hljs-literal">None</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>), length=-<span class="hljs-number">1</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>)<br><br><span class="hljs-comment"># 表示这里的训练队列的类型</span><br></code></pre></td></tr></table></figure>
@@ -290,13 +290,50 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> evalutate<br>metric = evaluate.load(<span class="hljs-string">&quot;seqeval&quot;</span>)<br><br>labels = raw_datasets[<span class="hljs-string">&quot;train&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;ner_tags&quot;</span>]<br>labels = [label_names[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> labels]<br><span class="hljs-comment">#这里相当于把原先的偏移寻址转换成了正常的可读入字符串的形式</span><br>predictions = labels.copy()<br>predictions[<span class="hljs-number">2</span>] = <span class="hljs-string">&quot;0&quot;</span><br>metric.compute(predictions= [predictions],reference = [labels])<br></code></pre></td></tr></table></figure>
 
 <p>计算度量函数</p>
-<pre><code class="python">import numpy as np
-def compute_metrcis(eval_preds):
-    logis,labels = eval_preds
-    predictions = np.argmax(logits,axis =-1)#true 是真的值,prediction是一个以训练结果导出来的值
-    true_labels = [[label_namse[l] for l in label if l != -100] for label in labels] # 啥?
-    true_predictions = [ [label_name[p] for (p,l) in zip(prediction,label) if l != -100] for prediction,label in zip(predictions,labels)]
-    all_metrics = metrci.compute(predictions = ture_predictions, references = true_labels)
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_metrcis</span>(<span class="hljs-params">eval_preds</span>):<br>    logis,labels = eval_preds<br>    predictions = np.argmax(logits,axis =-<span class="hljs-number">1</span>)<span class="hljs-comment">#true 是真的值,prediction是一个以训练结果导出来的值</span><br>    true_labels = [[label_namse[l] <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> label <span class="hljs-keyword">if</span> l != -<span class="hljs-number">100</span>] <span class="hljs-keyword">for</span> label <span class="hljs-keyword">in</span> labels] <span class="hljs-comment"># 啥?</span><br>    true_predictions = [ [label_name[p] <span class="hljs-keyword">for</span> (p,l) <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(prediction,label) <span class="hljs-keyword">if</span> l != -<span class="hljs-number">100</span>] <span class="hljs-keyword">for</span> prediction,label <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(predictions,labels)]<br>    all_metrics = metrci.compute(predictions = ture_predictions, references = true_labels)<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="defining-the-Model"><a href="#defining-the-Model" class="headerlink" title="defining the Model"></a>defining the Model</h4><p>设置一个相反的字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">id2label = &#123;i:label <span class="hljs-keyword">for</span> i, label <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(label_names)&#125;<br>lable2id = &#123;v,k <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> id2label.items()&#125;<br></code></pre></td></tr></table></figure>
+<p>在传入相关的模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForTokenClassification<br>model = AutoModelForTokenClassification.from_pretrained(<br>    model_checkpoint,<br>    id2label = id2label<br>    label2id = label2id<br>)<br></code></pre></td></tr></table></figure>
+
+<h4 id="Fine-tuning-the-model"><a href="#Fine-tuning-the-model" class="headerlink" title="Fine-tuning the model"></a>Fine-tuning the model</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> huggingface_hub <span class="hljs-keyword">import</span> notebook_login<br>notebook_login()<br><span class="hljs-comment">#调用训练参数</span><br><span class="hljs-keyword">from</span> transformes <span class="hljs-keyword">import</span> TrainingArguments<br>args = TrainingArguments(<br>    <span class="hljs-string">&quot;bert-finetune-ner&quot;</span>,<br>    evaluation_strategy = <span class="hljs-string">&quot;epoch&quot;</span>,<br>    save_strategy = <span class="hljs-string">&quot;epoch&quot;</span>,<br>    learning_rate = <span class="hljs-number">2e05</span>,<br>    num_train_epochs= <span class="hljs-number">3</span><br>    weight_decay= <span class="hljs-number">0.01</span>.<br>    push_to_hub = <span class="hljs-literal">True</span>,<br>)<br><span class="hljs-comment">#构建一个trainer</span><br><span class="hljs-keyword">from</span>  transformers <span class="hljs-keyword">import</span> Trainer<br><br>trainer = Trainer(<br>    model = model,<br>    args =args,<br>    train_dataset = tokenized_datasets[<span class="hljs-string">&quot;train&quot;</span>],<br>    eval_dataset = tokenized_datasets[<span class="hljs-string">&quot;validation&quot;</span>],<br>    data_collator = data_collator,<br>    compyte_metrics= compute_metrics,<br>    tokenizer = tokenizer,<br>)<br>trainer.train()<br>trainer.push_to_hub(commit_message= <span class="hljs-string">&quot;Training complete&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p>以上的模型在每一次训练的时候,都会上传到hub中</p>
+<h4 id="传统的训练流程举例"><a href="#传统的训练流程举例" class="headerlink" title="传统的训练流程举例"></a>传统的训练流程举例</h4><pre><code class="python">from torch.utils.data import DataLoader
+
+train_dataloader = DataLoader(
+    tokenized_datasets[&quot;train&quot;],
+    shuffle = True,
+    collate_fn = data_collator,
+    batch_size = 8,
+
+)
+eval_dataloader = DataLoader(
+    tokenized_datasets[&quot;validation&quot;],
+    collate_fn= data_collator,
+    batch_size = 8
+)
+
+#构建模型
+
+model = AutoModelForTokenXlassification.from_pretrained(
+    model_checkpoint,
+    id2label = id2label,
+    label2id  = label2id,
+)
+
+from torch.optim import AdamW
+optimizer = AdamW(model.parameters(),lr= 2e-5)
+
+#加速器模块
+
+from accelerate import Accelerator
+accelerator = Accelerator()
+modle,optimizer,train_dataloader,eval_dataloader = accelerator.prepare(
+    modle,optimizer,train_dataloader,eval_dataloader
+)
+
+
 </code></pre>
 
                 
@@ -322,7 +359,7 @@ def compute_metrcis(eval_preds):
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>NLP_huggingface</div>
+      <div>NLP_huggingface🤗</div>
       <div>http://example.com/2023/08/20/NLP/</div>
     </div>
     <div class="license-meta">

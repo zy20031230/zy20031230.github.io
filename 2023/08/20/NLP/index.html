@@ -24,7 +24,7 @@
 <meta property="og:description" content="NLP_huggingface🤗BASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-20T13:39:49.000Z">
-<meta property="article:modified_time" content="2023-08-22T02:01:01.235Z">
+<meta property="article:modified_time" content="2023-08-22T02:28:14.280Z">
 <meta property="article:author" content="NGC6302">
 <meta property="article:tag" content="NLP_hug">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
         
         
         
-          100 分钟
+          102 分钟
         
       </span>
     
@@ -324,9 +324,11 @@ from transformers import default_data_collator
 ww_prolbability = 0.2
 
 def whole_word_masking_data_collator(features):
+    #features是最外的字典
+    #feature是 键对值
     for feature in features:
-        word_ids = feature.po(&quot;word_ids&quot;)
-        mapping = collections.defaultdict(list)
+        word_ids = feature.pop(&quot;word_ids&quot;)
+        mapping = collections.defaultdict(list) #mapping内部元素是一种列表
         current_word_index = -1
         current_word = None:
         for idx,word_idx in enumerate(word_ids):
@@ -335,20 +337,29 @@ def whole_word_masking_data_collator(features):
                     current_word = word_id
                     #单词数量加1
                     current_word_index += 1
-                mapping[current_word_index].append(idx)#在当前单词的位置上,映射为最后一组的token为标签上
+                mapping[current_word_index].append(idx)#在当前单词的位置上映射对应的token的位置
     # 随机的遮蔽相关的字符
-    mask = np.random.binomial(1,wwm_probability,(len(mapping)))
-    input_ids = feature[&quot;input_ids&quot;]
+    mask = np.random.binomial(1,wwm_probability,(len(mapping))) #在mapping上的每一个元素都做二项分布,概率有wwm生成,同时生成一个列表 含有1,0等元素 
+    #这里满足了一整个单词遮蔽的方式
+
+
+    #同时原来的labels和input_ids都是保留一样的值
+    input_ids = feature[&quot;input_ids&quot;] 
     labels = feautre[&quot;labels&quot;]
-    new_labels = [-100] *len(labels) #创建一个长度为len 每一个元素都是[ -100]的列表
-    for word_id in np.where(mask)[0]:
+    new_labels = [-100] *len(labels) #创建一个长度为len 每一个元素都是[ -100]的列表 , 
+    for word_id in np.where(mask)[0]: #当作布尔行代数来看
         word_id = word_id.item()
         for idx in mapping[word_id]:
-            new_labels[idx] = labels[idx]
-            input_ids[idx] = tokenizer.mask_token_id
+            new_labels[idx] = labels[idx] #其他的默认是-100? 这里保留着遮蔽的那些词?
+            input_ids[idx] = tokenizer.mask_token_id #这里应该是相当于遮蔽了?
+
     feature[&quot;labels&quot;] = new_labels
 
     return default_data_collator(features)
+
+train_size =10_000
+test_size = int(0.1 * train_size) #int() 表示类型转换为整数
+
 
 </code></pre>
 

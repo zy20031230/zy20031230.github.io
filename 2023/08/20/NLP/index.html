@@ -24,7 +24,7 @@
 <meta property="og:description" content="NLP_huggingface🤗BASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-20T13:39:49.000Z">
-<meta property="article:modified_time" content="2023-08-21T15:07:58.239Z">
+<meta property="article:modified_time" content="2023-08-22T02:01:01.235Z">
 <meta property="article:author" content="NGC6302">
 <meta property="article:tag" content="NLP_hug">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          12k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          90 分钟
+          100 分钟
         
       </span>
     
@@ -310,6 +310,47 @@
 <p><strong>同时对于最后一个chunk出现的不均匀的情况,采用直接填充,或者直接丢弃的方法</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">group_texts</span>(<span class="hljs-params">examples</span>):<br>    concatenated_examples = &#123;k:<span class="hljs-built_in">sum</span>(examples[k],[]) <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> examples.keys()&#125;<br>    total_length = <span class="hljs-built_in">len</span>(concatenated_examples[<span class="hljs-built_in">list</span>(examples.keys())[<span class="hljs-number">0</span>]])<br>    total_length = (total_length // chunk_size) *chunk_size<br><br>    result = &#123;<br>        k:[t[i:i+chunk_size]<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,total_legth,chunk_size)] <span class="hljs-keyword">for</span> k,t inconcatenated_examples.items()<br>    &#125;<br><br>    result[<span class="hljs-string">&quot;labels&quot;</span>]= result[<span class="hljs-string">&quot;input_ids&quot;</span>].copy()<br>    <span class="hljs-keyword">return</span> result<br><br>lm_datasets = tokenzied_datasets.<span class="hljs-built_in">map</span>(group_texts,batched = <span class="hljs-literal">True</span>)    <br><br></code></pre></td></tr></table></figure>
 
+<h4 id="Fine-tuning-DistilBERt-with-the-Trainer-API"><a href="#Fine-tuning-DistilBERt-with-the-Trainer-API" class="headerlink" title="Fine-tuning DistilBERt with the Trainer API"></a>Fine-tuning DistilBERt with the Trainer API</h4><pre><code class="python">from transformer import DataCollatorForlanguageModeling
+data_collator = DataCollatorForLanguageModeling(tokenizer = tokenizer,mlm_probability = 0.15 )
+
+samples = [lm_dataset[&quot;train&quot;][i] for i in range(2)]
+for sample in samples:
+    _ = sample.popp(&quot;word_ids&quot;) #这个会弹出key对应的value 并删除这个键对值
+
+import collections
+import numpy as np
+from transformers import default_data_collator
+
+ww_prolbability = 0.2
+
+def whole_word_masking_data_collator(features):
+    for feature in features:
+        word_ids = feature.po(&quot;word_ids&quot;)
+        mapping = collections.defaultdict(list)
+        current_word_index = -1
+        current_word = None:
+        for idx,word_idx in enumerate(word_ids):
+            if word_id is not None:
+                if word_id != current_word:
+                    current_word = word_id
+                    #单词数量加1
+                    current_word_index += 1
+                mapping[current_word_index].append(idx)#在当前单词的位置上,映射为最后一组的token为标签上
+    # 随机的遮蔽相关的字符
+    mask = np.random.binomial(1,wwm_probability,(len(mapping)))
+    input_ids = feature[&quot;input_ids&quot;]
+    labels = feautre[&quot;labels&quot;]
+    new_labels = [-100] *len(labels) #创建一个长度为len 每一个元素都是[ -100]的列表
+    for word_id in np.where(mask)[0]:
+        word_id = word_id.item()
+        for idx in mapping[word_id]:
+            new_labels[idx] = labels[idx]
+            input_ids[idx] = tokenizer.mask_token_id
+    feature[&quot;labels&quot;] = new_labels
+
+    return default_data_collator(features)
+
+</code></pre>
 
                 
               </div>

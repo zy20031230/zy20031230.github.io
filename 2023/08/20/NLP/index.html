@@ -24,7 +24,7 @@
 <meta property="og:description" content="NLP_huggingface🤗BASE参考链接 NLP_course unigram tokenization12345678910111213141516171819202122232425262728293031323334353637383940def encode_word(word, model):    best_segmentations &#x3D; [&amp;#123;&quot;start">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-20T13:39:49.000Z">
-<meta property="article:modified_time" content="2023-08-23T08:57:41.598Z">
+<meta property="article:modified_time" content="2023-08-27T11:37:54.700Z">
 <meta property="article:author" content="NGC6302">
 <meta property="article:tag" content="NLP_hug">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          20k 字
+          23k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          170 分钟
+          189 分钟
         
       </span>
     
@@ -323,6 +323,37 @@
 
 <h3 id="summation"><a href="#summation" class="headerlink" title="summation"></a>summation</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">english_dataset.set_format(<span class="hljs-string">&quot;pandas&quot;</span>)<span class="hljs-comment">#转换数据类型</span><br>english_df = english_dataset[<span class="hljs-string">&quot;train&quot;</span>][:]<br><span class="hljs-comment"># Show counts for top 20 products</span><br>english_df[<span class="hljs-string">&quot;product_category&quot;</span>].value_counts()[:<span class="hljs-number">20</span>]<span class="hljs-comment">#统计出现次数最多的两个</span><br><br><span class="hljs-comment">#数据过滤</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">filter_books</span>(<span class="hljs-params">example</span>):<br>    <span class="hljs-keyword">return</span> (<br>        example[<span class="hljs-string">&quot;product_category&quot;</span>] == <span class="hljs-string">&quot;book&quot;</span><br>        <span class="hljs-keyword">or</span> example[<span class="hljs-string">&quot;product_category&quot;</span>] == <span class="hljs-string">&quot;digital_ebook_purchase&quot;</span><br>    )<br><br>english_dataset.reset_format() <span class="hljs-comment">#重新设置数据的格式</span><br>spanish_books = spanish_dataset.<span class="hljs-built_in">filter</span>(filter_books) <span class="hljs-comment">#应该是利用数据的格式,按照返回值来过滤数据</span><br>english_books = english_dataset.<span class="hljs-built_in">filter</span>(filter_books)<br><br></code></pre></td></tr></table></figure>
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> concatenate_datasets, DatasetDict<br><br>books_dataset = DatasetDict()<br><br><span class="hljs-keyword">for</span> split <span class="hljs-keyword">in</span> english_books.keys():<br>    books_dataset[split] = concatenate_datasets(<br>        [english_books[split], spanish_books[split]]<br>    ) <span class="hljs-comment">#这里是取出相关的标签 然后创建一致的量.</span><br>    books_dataset[split] = books_dataset[split].shuffle(seed=<span class="hljs-number">42</span>)<br><br><span class="hljs-comment"># Peek at a few examples</span><br>show_samples(books_dataset) <span class="hljs-comment">#books混入两种不同语言的数据集</span><br><br></code></pre></td></tr></table></figure>
+
+<h4 id="查看内容"><a href="#查看内容" class="headerlink" title="查看内容"></a>查看内容</h4><p>对于总结来说,过滤掉减短的总结是一件很重要的事情,否则会引起这种短总结的bias</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python">books_dataset = books_dataset.<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> x: <span class="hljs-built_in">len</span>(x[<span class="hljs-string">&quot;review_title&quot;</span>].split()) &gt; <span class="hljs-number">2</span>)<span class="hljs-comment">#按照里面值为1的方式进行过滤</span><br><br><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer<br><br>model_checkpoint = <span class="hljs-string">&quot;google/mt5-small&quot;</span><br>tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)<br><br><span class="hljs-comment">#输出结果</span><br>&#123;<span class="hljs-string">&#x27;input_ids&#x27;</span>: [<span class="hljs-number">336</span>, <span class="hljs-number">259</span>, <span class="hljs-number">28387</span>, <span class="hljs-number">11807</span>, <span class="hljs-number">287</span>, <span class="hljs-number">62893</span>, <span class="hljs-number">295</span>, <span class="hljs-number">12507</span>, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;attention_mask&#x27;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]&#125;<br><br>tokenizer.convert_ids_to_tokens(inputs.input_ids) <span class="hljs-comment">#分词转换的语句</span><br>[<span class="hljs-string">&#x27;▁I&#x27;</span>, <span class="hljs-string">&#x27;▁&#x27;</span>, <span class="hljs-string">&#x27;loved&#x27;</span>, <span class="hljs-string">&#x27;▁reading&#x27;</span>, <span class="hljs-string">&#x27;▁the&#x27;</span>, <span class="hljs-string">&#x27;▁Hung&#x27;</span>, <span class="hljs-string">&#x27;er&#x27;</span>, <span class="hljs-string">&#x27;▁Games&#x27;</span>, <span class="hljs-string">&#x27;&lt;/s&gt;&#x27;</span>]<br><br>max_input_length = <span class="hljs-number">512</span><br>max_target_length = <span class="hljs-number">30</span><br><br><span class="hljs-comment">#这里没有看懂....</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">preprocess_function</span>(<span class="hljs-params">examples</span>):<br>    model_inputs = tokenizer(<br>        examples[<span class="hljs-string">&quot;review_body&quot;</span>],<br>        max_length=max_input_length,<br>        truncation=<span class="hljs-literal">True</span>,<br>    )<br>    labels = tokenizer(<br>        examples[<span class="hljs-string">&quot;review_title&quot;</span>], max_length=max_target_length, truncation=<span class="hljs-literal">True</span><br>    )<br>    model_inputs[<span class="hljs-string">&quot;labels&quot;</span>] = labels[<span class="hljs-string">&quot;input_ids&quot;</span>]<br>    <span class="hljs-keyword">return</span> model_inputs<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="create-a-strong-yet-simple-baseline"><a href="#create-a-strong-yet-simple-baseline" class="headerlink" title="create a strong, yet simple baseline!"></a>create a strong, yet simple baseline!</h4><p>A common baseline for text summarization is to simply take the first three sentences of an article, often called the lead-3 baseline.</p>
+<pre><code class="python">import nltk
+
+nltk.download(&quot;punkt&quot;)
+
+from nltk.tokenize import sent_tokenize
+
+def three_sentence_summary(text):
+    return &quot;\n&quot;.join(sent_tokenize(text)[:3])
+
+
+print(three_sentence_summary(books_dataset[&quot;train&quot;][1][&quot;review_body&quot;]))
+
+def evaluate_baseline(dataset, metric):
+    summaries = [three_sentence_summary(text) for text in dataset[&quot;review_body&quot;]]
+    return metric.compute(predictions=summaries, references=dataset[&quot;review_title&quot;])
+
+#相当于用文本的前三句话作为评判的标准
+
+import pandas as pd
+
+score = evaluate_baseline(books_dataset[&quot;validation&quot;], rouge_score)
+rouge_names = [&quot;rouge1&quot;, &quot;rouge2&quot;, &quot;rougeL&quot;, &quot;rougeLsum&quot;]
+rouge_dict = dict((rn, round(score[rn].mid.fmeasure * 100, 2)) for rn in rouge_names)
+rouge_dict
+</code></pre>
 
                 
               </div>

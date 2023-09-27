@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="NGC6302">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Toolspandas1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556df.loc[df.AAA &gt;&#x3D; 5, &quot;BBB&quot;] &#x3D; -1#数据替换df.loc[(df[&quot;BBB&quot;] &lt; 25)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="data-clean">
+<meta property="og:url" content="http://example.com/2023/09/16/data-clean/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Toolspandas1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556df.loc[df.AAA &gt;&#x3D; 5, &quot;BBB&quot;] &#x3D; -1#数据替换df.loc[(df[&quot;BBB&quot;] &lt; 25)">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-16T03:04:58.000Z">
+<meta property="article:modified_time" content="2023-09-26T06:17:52.361Z">
+<meta property="article:author" content="NGC6302">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>data-clean - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5-a","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="data-clean"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-16 11:04" pubdate>
+          2023年9月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          68 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">data-clean</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h2><h3 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs python">df.loc[df.AAA &gt;= <span class="hljs-number">5</span>, <span class="hljs-string">&quot;BBB&quot;</span>] = -<span class="hljs-number">1</span><span class="hljs-comment">#数据替换</span><br>df.loc[(df[<span class="hljs-string">&quot;BBB&quot;</span>] &lt; <span class="hljs-number">25</span>) &amp; (df[<span class="hljs-string">&quot;CCC&quot;</span>] &gt;= -<span class="hljs-number">40</span>), <span class="hljs-string">&quot;AAA&quot;</span>]<span class="hljs-comment">#这个操作是直接展现数据</span><br>df.loc[df.AAA &gt;= <span class="hljs-number">5</span>, [<span class="hljs-string">&quot;BBB&quot;</span>, <span class="hljs-string">&quot;CCC&quot;</span>]] = <span class="hljs-number">555</span><span class="hljs-comment">#多数据替换</span><br>df.where(df_mask, -<span class="hljs-number">1000</span>)<span class="hljs-comment">#mask 用false替换掉</span><br>df[<span class="hljs-string">&quot;logic&quot;</span>] = np.where(df[<span class="hljs-string">&quot;AAA&quot;</span>] &gt; <span class="hljs-number">5</span>, <span class="hljs-string">&quot;high&quot;</span>, <span class="hljs-string">&quot;low&quot;</span>)<br><br><br><br><span class="hljs-comment">#数据裁剪 可以直接在变量的列表框中直接进行创建</span><br>df[(df.AAA &lt;= <span class="hljs-number">6</span>) &amp; (df.index.isin([<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>]))]<span class="hljs-comment">#.index表示行的处理方式.可以指定对应的标签</span><br>df2.iloc[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]  <span class="hljs-comment"># Position-oriented</span><br>df2.loc[<span class="hljs-number">1</span>:<span class="hljs-number">3</span>]  <span class="hljs-comment"># Label-oriented</span><br><br><span class="hljs-comment"># 用映射处理新的列 Efficiently and dynamically creating new columns using DataFrame.map (previously named applymap)</span><br>source_cols = df.columns  <span class="hljs-comment"># 创建出第一列的列名,同时这里是一个列表</span><br>new_cols = [<span class="hljs-built_in">str</span>(x) + <span class="hljs-string">&quot;_cat&quot;</span> <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> source_cols]<span class="hljs-comment">#按照str列名创建</span><br>categories = &#123;<span class="hljs-number">1</span>: <span class="hljs-string">&quot;Alpha&quot;</span>, <span class="hljs-number">2</span>: <span class="hljs-string">&quot;Beta&quot;</span>, <span class="hljs-number">3</span>: <span class="hljs-string">&quot;Charlie&quot;</span>&#125;<span class="hljs-comment">#字典</span><br>df[new_cols] = df[source_cols].<span class="hljs-built_in">map</span>(categories.get)<span class="hljs-comment">#映射的方式</span><br><br><span class="hljs-comment">#有一个重要的函数apply可以把所有的函数运用在特定的位置上</span><br><br><span class="hljs-comment">#merge </span><br>pd.merge(left,right,how=<span class="hljs-string">&quot;left&quot;</span>,on=[])<span class="hljs-comment">#向左边的键位进行连接,同时on表示通过什么键来连接</span><br><br><span class="hljs-comment"># Arithmetic .. Performing arithmetic with a MultiIndex that needs broadcasting</span><br>cols = pd.MultiIndex.from_tuples(<br>    [(x, y) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;A&quot;</span>, <span class="hljs-string">&quot;B&quot;</span>, <span class="hljs-string">&quot;C&quot;</span>] <span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> [<span class="hljs-string">&quot;O&quot;</span>, <span class="hljs-string">&quot;I&quot;</span>]]<br>)<br><span class="hljs-comment">#也就是以上可以创建一个两元的组,同时两者可以同时处理</span><br><br><span class="hljs-comment"># group </span><br><span class="hljs-comment">### 这里可以按照某一个特定的id做一次聚类,再对里面的数据完成操作</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">GrowUp</span>(<span class="hljs-params">x</span>):<br>    avg_weight = <span class="hljs-built_in">sum</span>(x[x[<span class="hljs-string">&quot;size&quot;</span>] == <span class="hljs-string">&quot;S&quot;</span>].weight * <span class="hljs-number">1.5</span>)<br>    avg_weight += <span class="hljs-built_in">sum</span>(x[x[<span class="hljs-string">&quot;size&quot;</span>] == <span class="hljs-string">&quot;M&quot;</span>].weight * <span class="hljs-number">1.25</span>)<br>    avg_weight += <span class="hljs-built_in">sum</span>(x[x[<span class="hljs-string">&quot;size&quot;</span>] == <span class="hljs-string">&quot;L&quot;</span>].weight)<br>    avg_weight /= <span class="hljs-built_in">len</span>(x)<br>    <span class="hljs-keyword">return</span> pd.Series([<span class="hljs-string">&quot;L&quot;</span>, avg_weight, <span class="hljs-literal">True</span>], index=[<span class="hljs-string">&quot;size&quot;</span>, <span class="hljs-string">&quot;weight&quot;</span>, <span class="hljs-string">&quot;adult&quot;</span>])<br><span class="hljs-comment">#weight 权重可以限制其为几倍的操作</span><br><br>pd.Series([i / <span class="hljs-number">100.0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">11</span>)])<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">cum_ret</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> x * (<span class="hljs-number">1</span> + y)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">red</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> functools.reduce(cum_ret, x, <span class="hljs-number">1.0</span>)<br><span class="hljs-comment"># 累积运用多次以上的操作</span><br><br><span class="hljs-comment">#注意transform参数的是用一个列作为参数 sort_values 函数通过参量里面的哪一个值来进行计算</span><br>df[<span class="hljs-string">&quot;Counts&quot;</span>] = df.groupby([<span class="hljs-string">&quot;Color&quot;</span>]).transform(<span class="hljs-built_in">len</span>)<span class="hljs-comment">#这里的groupby含有两个元素,但是len会通过广播机制反映到所有的color列中</span><br><br>df[<span class="hljs-string">&quot;beyer_shifted&quot;</span>] = df.groupby(level=<span class="hljs-number">0</span>)[<span class="hljs-string">&quot;beyer&quot;</span>].shift(<span class="hljs-number">1</span>)<span class="hljs-comment">#shift是作为向下移动的过程</span><br>df.groupby(level=<span class="hljs-number">0</span>)<span class="hljs-comment">#对于第一个列进行索引</span><br><br><br><br><br></code></pre></td></tr></table></figure>
+<h2 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;\n&quot;</span>.join(<span class="hljs-built_in">list</span>) <span class="hljs-comment">#表示用list字符重新生成字符串,同时里面内容用\n切割</span><br>[::-<span class="hljs-number">1</span>]<span class="hljs-comment">#从后向前遍历</span><br>[<span class="hljs-number">5</span>::<span class="hljs-number">6</span>]<span class="hljs-comment">#表示从5起,步长为6开始遍历</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="simpy"><a href="#simpy" class="headerlink" title="simpy"></a>simpy</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> simpy<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    env = simpy.Environment()<br>    env.process(traffic_light(env))<br>    env.run(until=<span class="hljs-number">120</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;simulation done&#x27;</span>)<br>    <br><span class="hljs-comment"># traffic_light是一个process，传入env是告诉traffic_light它是在env里执行的，而不是其它环境</span><br><span class="hljs-comment">#yield 可以随时的从当前的时间段停下来,然后下一次读取的时候在重复</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">traffic_light</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;light green at :<span class="hljs-subst">&#123;env.now&#125;</span>&#x27;</span>)<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">30</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;light yellow at :<span class="hljs-subst">&#123;env.now&#125;</span>&#x27;</span>)<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">5</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;light red at :<span class="hljs-subst">&#123;env.now&#125;</span>&#x27;</span>)<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">20</span>)<br>        <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    main()<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">example</span>(<span class="hljs-params">env</span>):<br>        value = <span class="hljs-keyword">yield</span> env.timeout(env,delay=<span class="hljs-number">1</span>,value=<span class="hljs-number">42</span>)<br>	    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;now=%d,value=%d&#x27;</span>%(env.now,value))<br>env = simpy.Environment()<br>p = env.process(example(env))<br></code></pre></td></tr></table></figure>
+<p>generate是一种迭代器,一次只能使用一个值,同时这个只能使用一次,之后相当于会忘记这里的值,也就是无法使用这个行为<br>yield 是一个用法与return类似的关键词，只是这个函数返回一个生成器<br>调用包含yield的函数会返回一个生成器，函数中的代码并没有运行，调用生成器后，每次遇到 yield 时函数会暂停并保存当前所有的运行信息（保留局部变量），返回 yield 的值, 并在下一次迭代时从当前位置继续运行，直到生成器被全部遍历完。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_generator</span>():<br>	    mylist = <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)<br>	    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> mylist:<br>		    <span class="hljs-keyword">yield</span> i*i<br>mygenerator = create_generator()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> mygenerator:<br>	    <span class="hljs-built_in">print</span>(i)<br>env.run(until=<span class="hljs-number">10</span>)<span class="hljs-comment">#会一直运行10s</span><br></code></pre></td></tr></table></figure>
+<p>Environment.active_process：获取当前执行的进程，只有在进程函数里能获取到该信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> simpy<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">subfunc</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-built_in">print</span>(env.active_process)<span class="hljs-comment">#process创建进程,run执行</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">proc</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-built_in">print</span>(env.active_process)<br>        subfunc(env)<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">1</span>)<span class="hljs-comment">#进程应该采用的阻塞器的方式做出生成器的方式</span><br>env = simpy.Environment()<br>p1 = env.process(proc(env))  <br></code></pre></td></tr></table></figure>
+<h4 id="event-basic"><a href="#event-basic" class="headerlink" title="event basic"></a>event basic</h4><p>3种状态:<br>    1. 将要发生triggered &#x3D; True 放入事件队列中<br>    2. 可能发生triggered &#x3D; False<br>    3. 已经发生processed &#x3D; True 处理,就会弹出<br>Event.callbacks：回调列表，只要event没有被处理，就可以添加回调。回调就是event以参数的形式存储在Event.callbacks列表中<br>触发后,可能成功也可能失败<br>Event.succeed(value&#x3D;None)：触发一件event并将其标记为成功<br>Event.fail(exception)：触发event失败，并闯入原因<br>Event.trigger(event)：触发event通用方法，返回成功或者失败的值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> simpy<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">school</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env</span>):<br>        self.env = env<br>        self.class_end = env.event()<br>        <span class="hljs-comment"># 创建三个pupil进程和一个bell进程</span><br>        self.pupil_procs = [env.process(self.pupil()) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>        self.bell_procs = env.process(self.bell())<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">bell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>): <span class="hljs-comment"># （1）bell循环</span><br>            <span class="hljs-keyword">yield</span> self.env.timeout(<span class="hljs-number">45</span>)  <span class="hljs-comment"># （2）等待45</span><br>            self.class_end.succeed()  <span class="hljs-comment"># （3）触发class_end标记成功</span><br>            self.class_end = self.env.event()  <span class="hljs-comment"># （4）生成新的class_end事件</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pupil</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):  <span class="hljs-comment"># （5）pupil循环</span><br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">r&#x27;\0/&#x27;</span>,end=<span class="hljs-string">&#x27; &#x27;</span>)  <span class="hljs-comment"># （6）输出\0/</span><br>            <span class="hljs-keyword">yield</span> self.class_end  <span class="hljs-comment">#（7）中断处理class_end事件</span><br>school = School(env)<br>env = simpy.Environment()<br>env.run()        <br><br><span class="hljs-comment"># charge &amp; run</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env</span>):<br>        self.env = env<br>        <span class="hljs-comment"># Start the run process everytime an instance is created.</span><br>        self.action = env.process(self.run())<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Start parking and charging at %d&#x27;</span> % self.env.now)<br>            charge_duration = <span class="hljs-number">5</span><br>            <span class="hljs-comment"># We yield the process that process() returns</span><br>            <span class="hljs-comment"># to wait for it to finish</span><br>            <span class="hljs-keyword">yield</span> self.env.process(self.charge(charge_duration))<br><br>            <span class="hljs-comment"># The charge process has finished and</span><br>            <span class="hljs-comment"># we can start driving again.</span><br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Start driving at %d&#x27;</span> % self.env.now)<br>            trip_duration = <span class="hljs-number">2</span><br>            <span class="hljs-keyword">yield</span> self.env.timeout(trip_duration)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">driver</span>(<span class="hljs-params">env, car</span>):<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">3</span>)<br>        car.action.interrupt()<span class="hljs-comment">#进程的中断</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">charge</span>(<span class="hljs-params">self, duration</span>):<br>        <span class="hljs-keyword">yield</span> self.env.timeout(duration) <span class="hljs-comment">#yield 本身也是作为返回一种迭代器的方式返回</span><br>        <span class="hljs-comment">#需要n </span><br>    <span class="hljs-keyword">import</span> simpy<br>    env = simpy.Environment()<br>    car = Car(env)<br>    env.run(until=<span class="hljs-number">15</span>)<br><br><span class="hljs-comment">### !!!! 注意进程的创建本身也是在加入一个函数里面含有yield函数即可 </span><br><span class="hljs-comment">#### 采用interupt函数中断</span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Car</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env</span>):<br>        self.env = env<br>        self.action = env.process(self.run())<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Start parking and charging at %d&#x27;</span> % self.env.now)<br>            charge_duration = <span class="hljs-number">5</span><br>            <span class="hljs-comment"># We may get interrupted while charging the battery</span><br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">yield</span> self.env.process(self.charge(charge_duration))<br>            <span class="hljs-keyword">except</span> simpy.Interrupt:<br>                <span class="hljs-comment"># When we received an interrupt, we stop charging and</span><br>                <span class="hljs-comment"># switch to the &quot;driving&quot; state</span><br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Was interrupted. Hope, the battery is full enough ...&#x27;</span>)<br><br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Start driving at %d&#x27;</span> % self.env.now)<br>            trip_duration = <span class="hljs-number">2</span><br>            <span class="hljs-keyword">yield</span> self.env.timeout(trip_duration)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">charge</span>(<span class="hljs-params">self, duration</span>):<br>        <span class="hljs-keyword">yield</span> self.env.timeout(duration)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">example</span>(<span class="hljs-params">env</span>):<br>    event = simpy.events.Timeout(env, delay=<span class="hljs-number">1</span>, value=<span class="hljs-number">42</span>)<br>    value = <span class="hljs-keyword">yield</span> event<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;now=%d, value=%d&#x27;</span> % (env.now, value))<br>env = simpy.Environment()<br>example_gen = example(env)<br>p = simpy.events.Process(env, example_gen)<br>env.run()<span class="hljs-comment"># 可以通过value函数,在yield 后返回一个对应的value的值</span><br><br><span class="hljs-comment"># run同时可以传递一个process进去此时run会返回相关的函数的return值</span><br><br></code></pre></td></tr></table></figure>
+<p>peek() returns the time of the next scheduled event or infinity (float(‘inf’)) if no future events are scheduled.</p>
+<p>step() processes the next scheduled event. It raises an EmptySchedule exception if no event is available.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs python">until = <span class="hljs-number">10</span><br><span class="hljs-keyword">while</span> env.peek() &lt; until:<br>   env.step()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">subfunc</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-built_in">print</span>(env.active_process)  <span class="hljs-comment"># will print &quot;p1&quot; 指向当前执行进程的pid</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_proc</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-built_in">print</span>(env.active_process)  <span class="hljs-comment"># will print &quot;p1&quot;</span><br>        subfunc(env)<br>        <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">1</span>)<br><br>env = simpy.Environment()<br>p1 = env.process(my_proc(env))<br>env.active_process  <span class="hljs-comment"># None</span><br>env.step()<br><br><span class="hljs-comment"># callback list</span><br><span class="hljs-keyword">import</span> simpy<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_callback</span>(<span class="hljs-params">event</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Called back from&#x27;</span>, event)<br><br>env = simpy.Environment()<br>event = env.event()<span class="hljs-comment">#相当于创建一个时间对象,之后开始修改并运用</span><br>event.callbacks.append(my_callback)<br>event.callbacks<br><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">School</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env</span>):<br>        self.env = env<br>        self.class_ends = env.event()<span class="hljs-comment">#这里初始化了一个对象,重复调用只能去调用这个对象中已经使用的部分,而不能重复调用这个创建函数</span><br>        <span class="hljs-comment"># init函数</span><br>        self.pupil_procs = [env.process(self.pupil()) <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>        self.bell_proc = env.process(self.bell())<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">bell</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>            <span class="hljs-keyword">yield</span> self.env.timeout(<span class="hljs-number">45</span>)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;hi&quot;</span>)<br>            self.class_ends.succeed()<br>            self.class_ends = self.env.event()<br>            <span class="hljs-built_in">print</span>(env.now)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pupil</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">r&#x27; \o/ &#x27;</span>, end=<span class="hljs-string">&#x27;&#x27;</span> )<br>            <span class="hljs-keyword">yield</span> self.class_ends <span class="hljs-comment">#yield 创建了,然后直接切断,进行下一个时间,</span><br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;hello&quot;</span>)<br>env = simpy.Environment()<br>school = School(env)<br>env.run()<br><br><span class="hljs-comment">#process as event</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sub</span>(<span class="hljs-params">env</span>):<br>    <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">23</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">parent</span>(<span class="hljs-params">env</span>):<br>    ret = <span class="hljs-keyword">yield</span> env.process(sub(env))<span class="hljs-comment">#相当于等待子进程完成之后在</span><br>    <span class="hljs-keyword">return</span> ret<br><br><br><span class="hljs-comment"># Waiting for multiple events at once</span><br><span class="hljs-keyword">from</span> simpy.events <span class="hljs-keyword">import</span> AnyOf, AllOf, Event<br>events = [Event(env) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>a = AnyOf(env, events)  <span class="hljs-comment"># Triggers if at least one of &quot;events&quot; is triggered.</span><br>b = AllOf(env, events)  <span class="hljs-comment"># Triggers if all each of &quot;events&quot; is triggered.</span><br><br><span class="hljs-comment">#  创建以上的方式 ,events作为对象列来等待操作</span><br></code></pre></td></tr></table></figure>
+<p>限制了函数的执行</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>data-clean</div>
+      <div>http://example.com/2023/09/16/data-clean/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>NGC6302</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/19/computer-network-1/" title="computer_network">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">computer_network</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/10/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" title="编译原理">
+                        <span class="hidden-mobile">编译原理</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

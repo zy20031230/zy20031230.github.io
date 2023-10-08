@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>spyter</title>
+    <link href="/2023/10/08/spyter/"/>
+    <url>/2023/10/08/spyter/</url>
+    
+    <content type="html"><![CDATA[<h2 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h2><h3 id="use"><a href="#use" class="headerlink" title="use"></a>use</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># soup 分词之后,soup.p为下面的标题的内容</span><br></code></pre></td></tr></table></figure><p>如果需要寻找多条相同的标签下的内容 可以通过</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">a_tag  = soup.find_all(<span class="hljs-string">&#x27;a&#x27;</span>)<span class="hljs-comment">#作为找到这个分割下面的</span><br><br>soup = BeautifulSoup(<span class="hljs-string">&#x27;&lt;b class=&quot;boldest&quot;&gt;Extremely bold&lt;/b&gt;&#x27;</span>, <span class="hljs-string">&#x27;lxml)</span><br><span class="hljs-string">soup.b.name#表示tag的name</span><br><span class="hljs-string">soup.attrs[&quot;name&quot;]#可以选择name的属性标签</span><br><span class="hljs-string">soup.string#也是可以获取文本内容</span><br><span class="hljs-string">soup.p.contents #用于指示两者之间的内容</span><br><span class="hljs-string">soup.p.children #可以展现里面所有的标签</span><br><span class="hljs-string">parents # as same function</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure><h3 id="子节点"><a href="#子节点" class="headerlink" title="子节点"></a>子节点</h3>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>computer_network</title>
     <link href="/2023/09/19/computer-network-1/"/>
     <url>/2023/09/19/computer-network-1/</url>

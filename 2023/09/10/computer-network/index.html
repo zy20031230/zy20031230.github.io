@@ -24,7 +24,7 @@
 <meta property="og:description" content="chapter 1网络核心网络核心:由路由器和链路形成的网状网络任务: 将数据包从发送侧的边缘路由器，传送到接收侧的边缘路由器,将全球的ISP连接到一起移动数据的两种基本方法：  电路交换 分组交换  分组交换 主机将要传输的数据分段，并组装成一系列分组 交换:在传输路径上，交换设备从一条链路上接收分组，将其发送到另一条链路上 存储转发:交换设备在接收到完整的分组后，才可以开始转发  序列化延迟:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-10T01:52:08.000Z">
-<meta property="article:modified_time" content="2023-09-10T02:31:13.404Z">
+<meta property="article:modified_time" content="2023-10-25T14:25:52.588Z">
 <meta property="article:author" content="NGC6302">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          771 字
+          1.2k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          7 分钟
+          10 分钟
         
       </span>
     
@@ -307,7 +307,23 @@
 <li>传输延迟:链路速率</li>
 <li>传播延迟:链路长度</li>
 </ol>
-
+<h2 id="chapter-3"><a href="#chapter-3" class="headerlink" title="chapter 3"></a>chapter 3</h2><h3 id="rdt-2-1"><a href="#rdt-2-1" class="headerlink" title="rdt 2.1"></a>rdt 2.1</h3><p>为了解决:发送方不理解自己说的话引申出来的问题,也就是发送方无法理解是ACK of NAK, 所以选择直接重传,但是接收方是正常的<br>发送方4个状态:</p>
+<ul>
+<li>添加了检查包是否损坏</li>
+<li>在发送状态(1,3)需要控制发送0,1序列<br>接受方2个状态</li>
+<li>出错发送NAK</li>
+<li>损坏发送NAK</li>
+<li>冗余发送ACK,但是不交付数据</li>
+</ul>
+<p>2.2相当于在用上一个分组来当作后一个分组的值,如果上一个分组,所以ack编码相当于减少了一半,同时需要引入超时重传机制,用一个定时计时器.</p>
+<h3 id="rdt-3-0"><a href="#rdt-3-0" class="headerlink" title="rdt 3.0"></a>rdt 3.0</h3><p>超时直接重放<br>如果超时定时器设置不合理:</p>
+<ol>
+<li>过早超时,ack1 会导致次序混乱.过早超时</li>
+</ol>
+<p>效率比较低,</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>当前时间å+前面的(1-å)的指数规律进行采用.</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><p>滑动窗口保留在最后一位的接收到的字节的下一位上面,同时不会选择回传<br>同时辅助定时器,可以选择隐忍不发,后面到达发送后面ack<br>后先于前,返回前面ack,突然补齐了就给后面的断<br><strong>快速重传</strong>:突然收到多个相同ack直接选择重传</p>
+<h5 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h5>
                 
               </div>
             

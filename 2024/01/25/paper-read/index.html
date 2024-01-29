@@ -23,10 +23,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="paper_read学习代码 TODO list  Prompting Large Language Models for Recommender Systems: A Comprehensive Framework and Empirical Analysis  LlamaRec: Two-Stage Recommendation using Large Language Models for">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/paper-read/toolformer.png">
 <meta property="article:published_time" content="2024-01-25T13:35:39.000Z">
-<meta property="article:modified_time" content="2024-01-29T04:06:33.506Z">
+<meta property="article:modified_time" content="2024-01-29T04:42:09.861Z">
 <meta property="article:author" content="NGC6302">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/paper-read/toolformer.png">
   
   
   
@@ -284,7 +286,7 @@
 </ul>
 <h4 id="some-finding"><a href="#some-finding" class="headerlink" title="some finding"></a>some finding</h4><ul>
 <li>Fine-tuning all parameters of LLMs for recommendation is more effective than parameter-efficient fine-tuning, but more training time is required</li>
-<li>• Increasing the number of historical items to represent users brings insignificant gains for LLM</li>
+<li>Increasing the number of historical items to represent users brings insignificant gains for LLM</li>
 </ul>
 <h4 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h4><ul>
 <li>Existing literature has also found the position bias in LLM-based recommendations [32, 74, 133], and methods such as bootstrapping [32] and Bayesian probability framework [74] havebeen proposed to calibrate unstable results. However, the instability of LLMs is still an unresolved issue.</li>
@@ -312,7 +314,8 @@
 <li>分词的方式是item逐一处理再进行拼接。</li>
 </ol>
 <h4 id="novelty"><a href="#novelty" class="headerlink" title="novelty"></a>novelty</h4><p>method</p>
-<h2 id="llm"><a href="#llm" class="headerlink" title="llm"></a>llm</h2><h3 id="Toolformer-Language-Models-Can-Teach-Themselves-to-Use-Tools"><a href="#Toolformer-Language-Models-Can-Teach-Themselves-to-Use-Tools" class="headerlink" title="Toolformer: Language Models Can Teach Themselves to Use Tools"></a>Toolformer: Language Models Can Teach Themselves to Use Tools</h3><ul>
+<h2 id="llm"><a href="#llm" class="headerlink" title="llm"></a>llm</h2><h3 id="Toolformer-Language-Models-Can-Teach-Themselves-to-Use-Tools"><a href="#Toolformer-Language-Models-Can-Teach-Themselves-to-Use-Tools" class="headerlink" title="Toolformer: Language Models Can Teach Themselves to Use Tools"></a>Toolformer: Language Models Can Teach Themselves to Use Tools</h3><p><img src="/./paper-read/toolformer.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
 <li><input checked="" disabled="" type="checkbox"> code: 正则表达式</li>
 </ul>
 <h4 id="idea-2"><a href="#idea-2" class="headerlink" title="idea"></a>idea</h4><p>无监督的方式教会语言模型使用工具</p>

@@ -23,7 +23,6 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="paper_read学习代码 TODO list  Prompting Large Language Models for Recommender Systems: A Comprehensive Framework and Empirical Analysis  LlamaRec: Two-Stage Recommendation using Large Language Models for">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://vdn3.vzuu.com/SD/83349034-5927-11ed-a869-76a40522aa1e.mp4?disable_local_cache=1&bu=078babd7&c=avc.1.1&f=mp4&expiration=1707227005&auth_key=1707227005-0-0-54dcd8af71d3cb2bc33cf3cc8fb9e478&v=tx&pu=078babd7">
 <meta property="og:image" content="http://example.com/paper-read/2step.png">
 <meta property="og:image" content="http://example.com/paper-read/llamarec.png">
 <meta property="og:image" content="http://example.com/paper-read/toolformer.png">
@@ -34,10 +33,10 @@
 <meta property="og:image" content="http://example.com/paper-read/NLP-diffusion2.png">
 <meta property="og:image" content="http://example.com/paper-read/Decoder-SD.png">
 <meta property="article:published_time" content="2024-01-25T13:35:39.000Z">
-<meta property="article:modified_time" content="2024-02-06T12:44:27.869Z">
+<meta property="article:modified_time" content="2024-02-06T13:29:02.354Z">
 <meta property="article:author" content="NGC6302">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://vdn3.vzuu.com/SD/83349034-5927-11ed-a869-76a40522aa1e.mp4?disable_local_cache=1&bu=078babd7&c=avc.1.1&f=mp4&expiration=1707227005&auth_key=1707227005-0-0-54dcd8af71d3cb2bc33cf3cc8fb9e478&v=tx&pu=078babd7">
+<meta name="twitter:image" content="http://example.com/paper-read/2step.png">
   
   
   
@@ -230,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          3.1k 字
         
       </span>
     
@@ -241,7 +240,7 @@
         
         
         
-          24 分钟
+          27 分钟
         
       </span>
     
@@ -293,8 +292,12 @@
 <li><input checked="" disabled="" type="checkbox"> dalle2</li>
 <li><input checked="" disabled="" type="checkbox"> Generative Modeling by Estimating Gradients of the Data Distribution</li>
 </ul>
-<h2 id="Generative-model"><a href="#Generative-model" class="headerlink" title="Generative model"></a>Generative model</h2><h3 id="Generative-Modeling-by-Estimating-Gradients-of-the-Data-Distribution"><a href="#Generative-Modeling-by-Estimating-Gradients-of-the-Data-Distribution" class="headerlink" title="Generative Modeling by Estimating Gradients of the Data Distribution"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/656417979">Generative Modeling by Estimating Gradients of the Data Distribution</a></h3><p>score 为数据的对数概率密度增长最快的方向<br>$$\mathbf{S\theta(x)}&#x3D; \nabla_x\log_p_\theta (x) $$</p>
-<p><img src="https://vdn3.vzuu.com/SD/83349034-5927-11ed-a869-76a40522aa1e.mp4?disable_local_cache=1&bu=078babd7&c=avc.1.1&f=mp4&expiration=1707227005&auth_key=1707227005-0-0-54dcd8af71d3cb2bc33cf3cc8fb9e478&v=tx&pu=078babd7" srcset="/img/loading.gif" lazyload alt="梯度场"></p>
+<h2 id="Generative-model"><a href="#Generative-model" class="headerlink" title="Generative model"></a>Generative model</h2><h3 id="Generative-Modeling-by-Estimating-Gradients-of-the-Data-Distribution"><a href="#Generative-Modeling-by-Estimating-Gradients-of-the-Data-Distribution" class="headerlink" title="Generative Modeling by Estimating Gradients of the Data Distribution"></a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/656417979">Generative Modeling by Estimating Gradients of the Data Distribution</a></h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Do4y16767/?spm_id_from=333.337.search-card.all.click&vd_source=6299aeae8989a203c110117bfebb54f7">video</a><br>score 为数据的对数概率密度增长最快的方向<br>$$\mathbf{S\theta(x)}&#x3D; \nabla_x\log_{p_\theta} (x) $$</p>
+<!-- ![梯度场](https://vdn3.vzuu.com/SD/83349034-5927-11ed-a869-76a40522aa1e.mp4?disable_local_cache=1&bu=078babd7&c=avc.1.1&f=mp4&expiration=1707227005&auth_key=1707227005-0-0-54dcd8af71d3cb2bc33cf3cc8fb9e478&v=tx&pu=078babd7) -->
+
+<p>朗之万采样:从先验分布中随机采样一个初始样本，然后利用score逐渐将样本像数据分布的高概率密度区域靠近，同时为了生成结果的多样性，需要采用过程带有随机性。同时z服从正态分布，epsilon为每次移动的步长</p>
+<p>$$\bold{x}_{i+1} \rightarrow \bold{x}_i + \epsilon\nabla_x\log p(x)+\sqrt{2\epsilon}\bold{z_i}  $$</p>
+<h4 id="Denoising-Score-Matching"><a href="#Denoising-Score-Matching" class="headerlink" title="Denoising Score Matching"></a>Denoising Score Matching</h4><p>$$q_\sigma(\tilde{x}|x)\thicksim N(\tilde{x};x,\sigma^2I) $$</p>
 <h2 id="rec-llm"><a href="#rec-llm" class="headerlink" title="rec &amp;&amp; llm"></a>rec &amp;&amp; llm</h2><h3 id="Prompting-Large-Language-Models-for-Recommender-Systems-A-Comprehensive-Framework-and-Empirical-Analysis"><a href="#Prompting-Large-Language-Models-for-Recommender-Systems-A-Comprehensive-Framework-and-Empirical-Analysis" class="headerlink" title="Prompting Large Language Models for Recommender Systems: A Comprehensive Framework and Empirical Analysis"></a>Prompting Large Language Models for Recommender Systems: A Comprehensive Framework and Empirical Analysis</h3><ul>
 <li><input disabled="" type="checkbox"> code</li>
 </ul>
@@ -429,6 +432,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/02/07/Math4ML/" title="Math4ML">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Math4ML</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

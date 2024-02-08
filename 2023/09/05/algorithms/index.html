@@ -16,15 +16,15 @@
   <meta name="author" content="NGC6302">
   <meta name="keywords" content="">
   
-    <meta name="description" content="算法密码:alg23 算法初步插入排序123456insertinSort(A)&amp;#123;    &#x2F;&#x2F;输入数组并完成排序    for j&#x3D;2 to length(A) do&amp;#125;   伪代码的写法 - 类c语言 插入排序是稳定的 快排序是非稳定的 如何对待伪代码进行优化  算法分析 预测使用的资源  计算时间 存储空间 通讯带宽 n个算法,分析时需要考虑计算机体系结构以及计算模型 控制">
+    <meta name="description" content="算法 密码:alg23 算法初步 插入排序 123456insertinSort(A)&amp;#123;    &#x2F;&#x2F;输入数组并完成排序    for j&#x3D;2 to length(A) do&amp;#125;  伪代码的写法 - 类c语言 插入排序是稳定的 快排序是非稳定的 如何对待伪代码进行优化  算法分析  预测使用的资源  计算时间 存储空间 通讯带宽 n个算法,分析时需要考虑计算机体系结构以及计算模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="algorithms">
 <meta property="og:url" content="http://example.com/2023/09/05/algorithms/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="算法密码:alg23 算法初步插入排序123456insertinSort(A)&amp;#123;    &#x2F;&#x2F;输入数组并完成排序    for j&#x3D;2 to length(A) do&amp;#125;   伪代码的写法 - 类c语言 插入排序是稳定的 快排序是非稳定的 如何对待伪代码进行优化  算法分析 预测使用的资源  计算时间 存储空间 通讯带宽 n个算法,分析时需要考虑计算机体系结构以及计算模型 控制">
+<meta property="og:description" content="算法 密码:alg23 算法初步 插入排序 123456insertinSort(A)&amp;#123;    &#x2F;&#x2F;输入数组并完成排序    for j&#x3D;2 to length(A) do&amp;#125;  伪代码的写法 - 类c语言 插入排序是稳定的 快排序是非稳定的 如何对待伪代码进行优化  算法分析  预测使用的资源  计算时间 存储空间 通讯带宽 n个算法,分析时需要考虑计算机体系结构以及计算模型">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-05T06:45:36.000Z">
-<meta property="article:modified_time" content="2023-10-25T02:22:38.674Z">
+<meta property="article:modified_time" content="2024-02-08T02:17:45.262Z">
 <meta property="article:author" content="NGC6302">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.7k 字
         
       </span>
     
@@ -278,17 +278,20 @@
             
               <div class="markdown-body">
                 
-                <h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>密码:alg23</p>
-<h2 id="算法初步"><a href="#算法初步" class="headerlink" title="算法初步"></a>算法初步</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">insertinSort</span>(A)<br>&#123;<br>    <span class="hljs-comment">//输入数组并完成排序</span><br>    <span class="hljs-keyword">for</span> j=<span class="hljs-number">2</span> to <span class="hljs-built_in">length</span>(A) <span class="hljs-keyword">do</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
-
+                <h1 id="算法">算法</h1>
+<p>密码:alg23</p>
+<h2 id="算法初步">算法初步</h2>
+<h3 id="插入排序">插入排序</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-built_in">insertinSort</span>(A)<br>&#123;<br>    <span class="hljs-comment">//输入数组并完成排序</span><br>    <span class="hljs-keyword">for</span> j=<span class="hljs-number">2</span> to <span class="hljs-built_in">length</span>(A) <span class="hljs-keyword">do</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li>伪代码的写法 - 类c语言</li>
 <li>插入排序是稳定的</li>
 <li>快排序是非稳定的</li>
 <li>如何对待伪代码进行优化</li>
 </ul>
-<h3 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h3><ul>
-<li><p>预测使用的资源</p>
+<h3 id="算法分析">算法分析</h3>
+<ul>
+<li>预测使用的资源
 <ul>
 <li>计算时间</li>
 <li>存储空间</li>
@@ -297,70 +300,61 @@
 <li>控制 数据移动 运算 均假设需要一个标准时间</li>
 <li>数据类型:Integer,floating point</li>
 <li>计算2的k次方视作单位1,内存存取视作单位1时间,同时不分层次且容量无限</li>
-</ul>
-</li>
-<li><p>插入排序的时间分析</p>
-<ol>
+</ul></li>
+<li>插入排序的时间分析
+<ol type="1">
 <li>影响时间的因素:输入规模,输入数据分布,计算时间用关于size的函数表示,与算法实现的数据结构相关,</li>
-<li>运行时间 基本操作数,执行步数 :度量的标准<ol>
-<li>最好时间(best case running time):dn是Tsigz的输入规模 $I_n \in D_n$ $P(I)\text{是I出现的概率}$</li>
+<li>运行时间 基本操作数,执行步数 :度量的标准
+<ol type="1">
+<li>最好时间(best case running time):dn是Tsigz的输入规模 <span
+class="math inline">\(I_n \in D_n\)</span> <span
+class="math inline">\(P(I)\text{是I出现的概率}\)</span></li>
 <li>tag:<strong>for语句每次执行的次数比循环体内部语句执行次数多一次</strong></li>
-</ol>
-</li>
-</ol>
-</li>
+</ol></li>
+</ol></li>
 </ul>
-<h3 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h3><ol>
-<li>divide and conquer &#x2F;&#x2F;</li>
+<h3 id="算法设计">算法设计</h3>
+<ol type="1">
+<li>divide and conquer //</li>
 <li>Greedy strategy</li>
-<li>dynamic pragram</li>
+<li>dynamic pragram #### 分治法(divide and conquer)</li>
 </ol>
-<h4 id="分治法-divide-and-conquer"><a href="#分治法-divide-and-conquer" class="headerlink" title="分治法(divide and conquer)"></a>分治法(divide and conquer)</h4><h3 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h3><h4 id="mid"><a href="#mid" class="headerlink" title="mid"></a>mid</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Random_select</span>(<span class="hljs-params">A,p,r,i</span>):<br>    <span class="hljs-keyword">if</span> p == r:<br>      <span class="hljs-keyword">return</span> A[p]<br>    q = Random_partition(A,p,r)<br>    k = q-p+<span class="hljs-number">1</span><br>    <span class="hljs-keyword">if</span> i == k:<br>      <span class="hljs-keyword">return</span> A[q]<br>    <span class="hljs-keyword">elif</span> i&lt;k:<br>      <span class="hljs-keyword">return</span> Random_select(A,p,r,q-<span class="hljs-number">1</span>,i)<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> Random_select(A,q+<span class="hljs-number">1</span>,r,i-k)<br>  <br></code></pre></td></tr></table></figure>
-
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><h4 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h4><ol>
+<h3 id="sort">sort</h3>
+<h4 id="mid">mid</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Random_select</span>(<span class="hljs-params">A,p,r,i</span>):<br>    <span class="hljs-keyword">if</span> p == r:<br>      <span class="hljs-keyword">return</span> A[p]<br>    q = Random_partition(A,p,r)<br>    k = q-p+<span class="hljs-number">1</span><br>    <span class="hljs-keyword">if</span> i == k:<br>      <span class="hljs-keyword">return</span> A[q]<br>    <span class="hljs-keyword">elif</span> i&lt;k:<br>      <span class="hljs-keyword">return</span> Random_select(A,p,r,q-<span class="hljs-number">1</span>,i)<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> Random_select(A,q+<span class="hljs-number">1</span>,r,i-k)<br>  <br></code></pre></td></tr></table></figure>
+<h3 id="红黑树">红黑树</h3>
+<h4 id="性质">性质</h4>
+<ol type="1">
 <li>根B</li>
 <li>NIL是B</li>
 <li>node R children是B</li>
 <li>节点到后代叶节点的路径,含有的相同数目B相同</li>
 </ol>
 <p><strong>黑高</strong>:从结点x出发到达任何一个简单路径的黑色节点的个数称为该结点的黑高</p>
-<p><strong>13.1</strong>含有n个内部结点的高度至多为$2\lg (n+1)$<br>  归纳: 子节点的黑高bh(x) or bh(x) -1 ,所以以x为根,含有结点$x^{bh(x)-1} -1$</p>
-<h4 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h4><p>类似于根的左右旋转</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">left_rotate</span>(<span class="hljs-params">T,x</span>):<br>  y = x.right<br>  x.right = y.left<br>  <span class="hljs-keyword">if</span> y.left != T.nil:<br>      y.left.p = x<br>  y.p = x.p<br>  <span class="hljs-keyword">if</span> x.p == T.nil: <span class="hljs-comment"># x是根结点</span><br>    T.root = y<br>  <span class="hljs-keyword">elif</span> x == x.p.left:<br>    x.p.left = y<br>  <span class="hljs-keyword">else</span> x.p.right = y<br>  y.left = x<br>  x.p = y<span class="hljs-comment"># 相当于多了一个父结点需要修正</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h4><p>z插入T,同时z着红色,同时调用新的程序进行修正</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">RB_INSERT</span>(<span class="hljs-params">T,z</span>):<br>  y = T.nil<br>  x = T.root<br>  While x != T.nil<br></code></pre></td></tr></table></figure>
-<p>修正产生的情况(插入红结点不会改变任意位置的黑高,同时自己本身就是最后一个位置)</p>
-<ol>
-<li>父,叔结点都是红的,父叔结点转换为黑,同时上移爷爷(黑)结点转为红,这样会面对父结点是红,但是自己是红,但是叔结点是黑</li>
-<li>在左孩子上面的情况下,可以统一的变换成左边连续两红结点的情况</li>
-</ol>
-<h4 id="删除的方法"><a href="#删除的方法" class="headerlink" title="删除的方法"></a>删除的方法</h4><p>只有在z左右不是双空的情况下需要进行调整,同时采用的删除方式是,找到右子树的最左端结点,删除,同时把他的值填入Z,也就是y的右子树可能需要进行调整,同时x仅仅是一个子树,现在y删除之后,上面没有变动,现在需要依据y</p>
-<ol>
-<li>y是红,没有任何影响</li>
-<li>y是黑,x下面缺了一个黑<ol>
-<li>x是红的,直接涂黑</li>
-<li>x已经是黑的,相当于少了一个黑,我们假定他是双黑<ol>
-<li>把情况变换成右子树是黑的<ol>
-<li>w孩子都是黑的把父结点增黑,兄弟变白,现在矛盾转移到了父结点</li>
-<li>w的右子树是黑,左子树是红</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h4 id="秩"><a href="#秩" class="headerlink" title="秩"></a>秩</h4><p>秩的确定:</p>
-<ol>
-<li>确定自己在以自己为根r的大小</li>
-<li>直到root之前,如果自己是左孩子,那么自己不需要考虑父结点孩子的影响,如果自己是右孩子,那么自己还要加上父结点以及自己的兄弟的值.同时上移自己考虑父结点相关的影响</li>
-</ol>
-<p><strong>插入结点后的维护</strong>:</p>
-<ol>
-<li>经历后的结点的size需要加1</li>
-<li>修正算法最多增加两个旋转,旋转算法也需要增加相关的size的修正</li>
-</ol>
+<p><strong>13.1</strong>含有n个内部结点的高度至多为<span
+class="math inline">\(2\lg (n+1)\)</span> 归纳: 子节点的黑高bh(x) or
+bh(x) -1 ,所以以x为根,含有结点<span class="math inline">\(x^{bh(x)-1}
+-1\)</span></p>
+<h4 id="旋转">旋转</h4>
+<p>类似于根的左右旋转 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">left_rotate</span>(<span class="hljs-params">T,x</span>):<br>  y = x.right<br>  x.right = y.left<br>  <span class="hljs-keyword">if</span> y.left != T.nil:<br>      y.left.p = x<br>  y.p = x.p<br>  <span class="hljs-keyword">if</span> x.p == T.nil: <span class="hljs-comment"># x是根结点</span><br>    T.root = y<br>  <span class="hljs-keyword">elif</span> x == x.p.left:<br>    x.p.left = y<br>  <span class="hljs-keyword">else</span> x.p.right = y<br>  y.left = x<br>  x.p = y<span class="hljs-comment"># 相当于多了一个父结点需要修正</span><br></code></pre></td></tr></table></figure></p>
+<h4 id="插入">插入</h4>
+<p>z插入T,同时z着红色,同时调用新的程序进行修正 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">RB_INSERT</span>(<span class="hljs-params">T,z</span>):<br>  y = T.nil<br>  x = T.root<br>  While x != T.nil<br></code></pre></td></tr></table></figure>
+修正产生的情况(插入红结点不会改变任意位置的黑高,同时自己本身就是最后一个位置)
+1.
+父,叔结点都是红的,父叔结点转换为黑,同时上移爷爷(黑)结点转为红,这样会面对父结点是红,但是自己是红,但是叔结点是黑
+2. 在左孩子上面的情况下,可以统一的变换成左边连续两红结点的情况</p>
+<h4 id="删除的方法">删除的方法</h4>
+<p>只有在z左右不是双空的情况下需要进行调整,同时采用的删除方式是,找到右子树的最左端结点,删除,同时把他的值填入Z,也就是y的右子树可能需要进行调整,同时x仅仅是一个子树,现在y删除之后,上面没有变动,现在需要依据y
+1. y是红,没有任何影响 2. y是黑,x下面缺了一个黑 1. x是红的,直接涂黑 2.
+x已经是黑的,相当于少了一个黑,我们假定他是双黑 1.
+把情况变换成右子树是黑的 1.
+w孩子都是黑的把父结点增黑,兄弟变白,现在矛盾转移到了父结点 2.
+w的右子树是黑,左子树是红</p>
+<h4 id="秩">秩</h4>
+<p>秩的确定: 1. 确定自己在以自己为根r的大小 2.
+直到root之前,如果自己是左孩子,那么自己不需要考虑父结点孩子的影响,如果自己是右孩子,那么自己还要加上父结点以及自己的兄弟的值.同时上移自己考虑父结点相关的影响</p>
+<p><strong>插入结点后的维护</strong>: 1. 经历后的结点的size需要加1 2.
+修正算法最多增加两个旋转,旋转算法也需要增加相关的size的修正</p>
 
                 
               </div>
@@ -418,29 +412,6 @@
 
 
 
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2023/09/06/recommandation/" title="recommandation">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">recommandation</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2023/08/26/leetcode/" title="leetcode">
-                        <span class="hidden-mobile">leetcode</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
               
             </div>
 

@@ -16,12 +16,12 @@
   <meta name="author" content="NGC6302">
   <meta name="keywords" content="">
   
-    <meta name="description" content="检索预训练模型大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现transforms  基于位置信息表征,适应较长的文本 优势:矩阵乘法为核心,GPU高速运算  bert:过绕诶家发双向多层,position + Token + segment信息embedding 预训练 随机mask部分词,然后用上下 fine-tune: 选择训练好的最后一层,分类层">
+    <meta name="description" content="检索 预训练模型 大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现 transforms - 基于位置信息表征,适应较长的文本 - 优势:矩阵乘法为核心,GPU高速运算 -  - bert:过绕诶家发双向多层,position + Token + segment信息embedding - 预训练 随机mask部分词,然后用上下 - fine-tune:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web">
 <meta property="og:url" content="http://example.com/2023/10/23/web/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="检索预训练模型大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现transforms  基于位置信息表征,适应较长的文本 优势:矩阵乘法为核心,GPU高速运算  bert:过绕诶家发双向多层,position + Token + segment信息embedding 预训练 随机mask部分词,然后用上下 fine-tune: 选择训练好的最后一层,分类层">
+<meta property="og:description" content="检索 预训练模型 大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现 transforms - 基于位置信息表征,适应较长的文本 - 优势:矩阵乘法为核心,GPU高速运算 -  - bert:过绕诶家发双向多层,position + Token + segment信息embedding - 预训练 随机mask部分词,然后用上下 - fine-tune:">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/10/23/web/web/%E6%88%AA%E5%B1%8F.png">
 <meta property="og:image" content="http://example.com/2023/10/23/web/web/%E6%88%AA%E5%B1%8F%201.png">
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          305 字
+          318 字
         
       </span>
     
@@ -283,31 +283,23 @@
             
               <div class="markdown-body">
                 
-                <h3 id="检索"><a href="#检索" class="headerlink" title="检索"></a>检索</h3><h4 id="预训练模型"><a href="#预训练模型" class="headerlink" title="预训练模型"></a>预训练模型</h4><p>大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现<br><strong>transforms</strong></p>
-<ul>
-<li>基于位置信息表征,适应较长的文本</li>
-<li>优势:矩阵乘法为核心,GPU高速运算</li>
-<li><img src="web/截屏.png" srcset="/img/loading.gif" lazyload alt=""></li>
-<li>bert:过绕诶家发双向多层,position + Token + segment信息embedding<ul>
-<li>预训练 随机mask部分词,然后用上下</li>
-<li>fine-tune:<ul>
-<li>选择训练好的最后一层,分类层进行替换,冻结先前的部分,</li>
-<li>利用新的分类层的反相传递优化过层</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>缺点,安全问题,以及</li>
-<li>优点:<ul>
-<li>任务难度大 采用上游预训练,下游微调的范式.</li>
-<li>充分利用了大量的无标签数据,开放世界的知识应用于下游任务,从而大幅度提高了模型效果</li>
-<li>可以直接使用</li>
-</ul>
-</li>
-</ul>
-<h2 id="协同过滤"><a href="#协同过滤" class="headerlink" title="协同过滤"></a>协同过滤</h2><p><img src="web/截屏%201.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<p><img src="web/截屏%202.png" srcset="/img/loading.gif" lazyload alt=""></p>
-<h3 id="item"><a href="#item" class="headerlink" title="item"></a>item</h3><p><img src="web/截屏%203.png" srcset="/img/loading.gif" lazyload alt=""></p>
+                <h3 id="检索">检索</h3>
+<h4 id="预训练模型">预训练模型</h4>
+<p>大规模的数据和模型,学习语料库的知识,将这些知识迁移到某一个具体的任务中,从而获得较好的表现
+<strong>transforms</strong> - 基于位置信息表征,适应较长的文本 -
+优势:矩阵乘法为核心,GPU高速运算 - <img src="web/截屏.png" srcset="/img/loading.gif" lazyload /> -
+bert:过绕诶家发双向多层,position + Token + segment信息embedding - 预训练
+随机mask部分词,然后用上下 - fine-tune: -
+选择训练好的最后一层,分类层进行替换,冻结先前的部分, -
+利用新的分类层的反相传递优化过层 - 缺点,安全问题,以及 - 优点: -
+任务难度大 采用上游预训练,下游微调的范式. -
+充分利用了大量的无标签数据,开放世界的知识应用于下游任务,从而大幅度提高了模型效果
+- 可以直接使用</p>
+<h2 id="协同过滤">协同过滤</h2>
+<p><img src="web/截屏%201.png" srcset="/img/loading.gif" lazyload /></p>
+<p><img src="web/截屏%202.png" srcset="/img/loading.gif" lazyload /></p>
+<h3 id="item">item</h3>
+<p><img src="web/截屏%203.png" srcset="/img/loading.gif" lazyload /></p>
 
                 
               </div>

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-gray-900 antialiased;
+  font-family: Inter, "Noto Sans SC", system-ui, -apple-system, sans-serif;
+}
+
+/* 学术链接样式 */
+a.pub-link {
+  @apply text-accent hover:underline;
+}
+
+/* 选中文本颜色 */
+::selection {
+  background-color: #bee3f8;
+  color: #1a365d;
+}

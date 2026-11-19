@@ -5,11 +5,10 @@ import { profile } from "@/data/profile";
 
 const navLinks = [
   { label: "Home", href: "#bio" },
-  { label: "News", href: "#news" },
   { label: "Publications", href: "#publications" },
-  { label: "Notes", href: "#notes" },
   { label: "Services", href: "#services" },
   { label: "Awards", href: "#awards" },
+  { label: "News", href: "#news" },
 ];
 
 export default function Navbar() {

@@ -2,7 +2,7 @@ import { services } from "@/data/services";
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="py-14">
+    <section id="services" className="py-14 bg-gray-50">
       <div className="max-w-5xl mx-auto px-6">
         <SectionTitle>Professional Services</SectionTitle>
 

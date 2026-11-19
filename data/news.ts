@@ -10,6 +10,12 @@ export type NewsItem = {
 
 export const newsItems: NewsItem[] = [
   {
+    date: "2026-11",
+    tag: "Misc",
+    content:
+      'Published an interactive research survey: <a href="/visual-coding-survey/" class="text-accent hover:underline font-medium">走出终端之后：Visual Coding 与游戏评测的下半场 (62 Papers &amp; 10 Blogs)</a>.',
+  },
+  {
     date: "2026-02",
     tag: "Paper",
     content:

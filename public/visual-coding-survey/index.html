@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>走出终端之后：Visual Coding 与游戏评测的下半场</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+  <style>
+    :root {
+      --bg: #fdfdfc;
+      --bg-subtle: #f6f6f3;
+      --surface: #ffffff;
+      --code-bg: #f3f4f6;
+      --text: #1c1e21;
+      --text-secondary: #374151;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --border-strong: #d1d5db;
+      --accent: #1e40af;
+      --accent-hover: #1d4ed8;
+      --quote-bg: #f8fafc;
+    }
+    [data-theme="dark"] {
+      --bg: #111317;
+      --bg-subtle: #181b20;
+      --surface: #181b20;
+      --code-bg: #22262e;
+      --text: #e5e7eb;
+      --text-secondary: #cbd5e1;
+      --muted: #9ca3af;
+      --border: #2a2f3a;
+      --border-strong: #374151;
+      --accent: #93c5fd;
+      --accent-hover: #bfdbfe;
+      --quote-bg: #181c24;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+      font-size: 16.5px;
+      line-height: 1.82;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* Minimal academic top navigation bar (Lil'Log style) */
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+    .topbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    .brand {
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-actions { display: flex; gap: 14px; align-items: center; color: var(--muted); font-size: 13px; }
+    .theme-toggle {
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text-secondary);
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 12.5px;
+    }
+    /* Article Header */
+    .post-header {
+      max-width: 1180px;
+      margin: 44px auto 28px;
+      padding: 0 28px;
+    }
+    .post-title {
+      font-size: clamp(26px, 3.1vw, 34px);
+      font-weight: 750;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
+    .post-subtitle {
+      font-size: 17px;
+      line-height: 1.62;
+      color: var(--muted);
+      margin: 0 0 18px;
+      max-width: 960px;
+      font-weight: 400;
+    }
+    .post-meta {
+      font-size: 13.5px;
+      color: var(--muted);
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    /* Main two-column academic reading layout */
+    .page-grid {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 8px 28px 96px;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .page-grid { grid-template-columns: minmax(0, 1fr); max-width: 820px; gap: 20px; }
+      aside.sidebar { position: static !important; max-height: none !important; margin-bottom: 8px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-subtle); }
+    }
+    aside.sidebar {
+      position: sticky;
+      top: 68px;
+      max-height: calc(100vh - 88px);
+      overflow-y: auto;
+      padding-right: 8px;
+      font-size: 13px;
+    }
+    .toc-heading {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .toc-link {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 0 4px 10px;
+      border-left: 2px solid transparent;
+      line-height: 1.42;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .toc-link:hover, .toc-link.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+    .toc-l2 { font-weight: 600; color: var(--text-secondary); margin-top: 8px; }
+    .toc-l3 { padding-left: 20px; font-size: 12.5px; }
+    .bib-search {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .bib-search input {
+      width: 100%;
+      padding: 6px 9px;
+      font-size: 12.5px;
+      border: 1px solid var(--border-strong);
+      border-radius: 5px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    /* Prose Typography */
+    article.prose h2 {
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin: 48px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.35;
+    }
+    article.prose h3 {
+      font-size: 18.5px;
+      font-weight: 650;
+      margin: 32px 0 12px;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    article.prose h4 {
+      font-size: 16px;
+      font-weight: 650;
+      margin: 22px 0 8px;
+    }
+    article.prose p {
+      margin: 0 0 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    article.prose strong { color: var(--text); font-weight: 650; }
+    article.prose a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-color: rgba(30, 64, 175, 0.35);
+      text-underline-offset: 3px;
+    }
+    article.prose a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
+    article.prose ul, article.prose ol {
+      margin: 0 0 18px;
+      padding-left: 22px;
+      color: var(--text-secondary);
+    }
+    article.prose li { margin-bottom: 7px; }
+    article.prose blockquote {
+      margin: 22px 0;
+      padding: 12px 18px;
+      border-left: 3px solid var(--border-strong);
+      background: var(--quote-bg);
+      color: var(--text-secondary);
+      font-size: 15.5px;
+    }
+    article.prose blockquote p:last-child { margin-bottom: 0; }
+    code {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.86em;
+      background: var(--code-bg);
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: var(--text);
+    }
+    .cite-date {
+      font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.82em;
+      color: var(--muted);
+    }
+    pre.arch-pre {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      line-height: 1.5;
+      font-size: 13px;
+      margin: 20px 0 24px;
+    }
+    pre.arch-pre code { background: none; padding: 0; font-size: inherit; }
+    .math-display {
+      margin: 20px 0;
+      padding: 14px 18px;
+      overflow-x: auto;
+      background: var(--bg-subtle);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 15px;
+    }
+    /* Academic Booktabs-style Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 22px 0 28px;
+      border-top: 2px solid var(--text);
+      border-bottom: 2px solid var(--text);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    th {
+      text-align: left;
+      font-weight: 650;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-strong);
+      color: var(--text);
+      background: var(--bg-subtle);
+      white-space: nowrap;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    details.qa-drawer {
+      margin: 18px 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      padding: 12px 16px;
+    }
+    details.qa-drawer summary {
+      cursor: pointer;
+      font-weight: 650;
+      color: var(--text);
+      font-size: 15.5px;
+    }
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    figure.paper-fig {
+      margin: 26px 0 32px;
+      padding: 16px 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    figure.paper-fig img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+    figure.paper-fig .fig-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    @media (max-width: 720px) {
+      figure.paper-fig .fig-grid-2 { grid-template-columns: 1fr; }
+    }
+    figure.paper-fig figcaption {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.62;
+      text-align: left;
+    }
+    figure.paper-fig figcaption strong { color: var(--text); }
+    .prelim-box {
+      margin: 24px 0 28px;
+      padding: 18px 22px;
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid #0f766e;
+      border-radius: 6px;
+      background: var(--bg-subtle);
+      font-size: 15.2px;
+    }
+    .prelim-box .box-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #0f766e;
+      margin-bottom: 6px;
+    }
+    [data-theme="dark"] .prelim-box { border-left-color: #2dd4bf; }
+    [data-theme="dark"] .prelim-box .box-label { color: #2dd4bf; }
+    .insight-box {
+      margin: 24px 0 30px;
+      padding: 18px 22px;
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      background: var(--quote-bg);
+      font-size: 15.2px;
+    }
+    .insight-box .box-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .prelim-box p:last-child, .insight-box p:last-child { margin-bottom: 0; }
+    .prelim-split {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 20px;
+      align-items: center;
+      margin: 18px 0 24px;
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    @media (max-width: 780px) {
+      .prelim-split { grid-template-columns: 1fr; }
+    }
+    .prelim-split .prelim-text h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--text);
+    }
+    .prelim-split .prelim-text p {
+      margin: 0 0 10px;
+      font-size: 14.8px;
+      line-height: 1.68;
+    }
+    .prelim-split .prelim-text p:last-child { margin-bottom: 0; }
+    .prelim-split .prelim-vis img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+    }
+    /* Interactive Distill-style Pedagogical Widgets */
+    .interactive-widget {
+      margin: 26px 0 32px;
+      padding: 20px 22px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .w-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+    .w-badge { display: inline-block; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #0f766e; margin-bottom: 4px; }
+    [data-theme="dark"] .w-badge { color: #2dd4bf; }
+    .w-head h4 { margin: 0; font-size: 16px; color: var(--text); }
+    .w-rate { font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--code-bg); color: var(--text-secondary); }
+    .w-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .w-pill {
+      cursor: pointer; border: 1px solid var(--border-strong); background: var(--bg-subtle);
+      color: var(--text-secondary); padding: 5px 11px; border-radius: 6px; font-size: 12.8px; font-weight: 500;
+    }
+    .w-pill.active { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    [data-theme="dark"] .w-pill.active { color: #0f172a; }
+    .w-body-grid { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 18px; align-items: stretch; }
+    @media (max-width: 860px) { .w-body-grid { grid-template-columns: 1fr; } }
+    .w-canvas-wrap { display: flex; flex-direction: column; align-items: center; }
+    .w-canvas-wrap canvas { width: 100%; max-width: 440px; height: auto; border-radius: 6px; border: 1px solid var(--border); background: #f8fafc; }
+    .w-canvas-hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .w-code-panel { display: flex; flex-direction: column; justify-content: space-between; }
+    .w-code-label { font-size: 12.5px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+    .w-code-panel pre { margin: 0 0 10px; padding: 11px 13px; border-radius: 6px; background: var(--bg-subtle); border: 1px solid var(--border); font-size: 12.2px; line-height: 1.48; overflow-x: auto; color: var(--text); }
+    .w-explain { margin: 0 !important; font-size: 14px !important; line-height: 1.62 !important; color: var(--text-secondary); }
+    .w-case-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+    .w-case-tabs button { cursor: pointer; border: 1px solid var(--border-strong); background: var(--bg-subtle); color: var(--text-secondary); padding: 4px 10px; border-radius: 5px; font-size: 12.2px; }
+    .w-case-tabs button.active { background: #0f766e; color: #ffffff; border-color: #0f766e; }
+    .wv-layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 16px; }
+    @media (max-width: 760px) { .wv-layout { grid-template-columns: 1fr; } }
+    .wv-list { display: flex; flex-direction: column; gap: 6px; }
+    .wv-item { text-align: left; cursor: pointer; padding: 8px 11px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-subtle); color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+    .wv-item.active { border-color: var(--accent); background: var(--quote-bg); color: var(--accent); font-weight: 650; }
+    .wv-detail { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; background: var(--bg-subtle); }
+    .wv-meta-label { font-size: 11.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; }
+    .wv-signal, .wv-reps { font-size: 13.8px; color: var(--text); margin-bottom: 12px; line-height: 1.55; }
+    .wv-verdict { padding: 12px 14px; border-radius: 6px; border-left: 4px solid #64748b; background: var(--surface); }
+    .wv-ok { border-left-color: #16a34a; }
+    .wv-warn { border-left-color: #d97706; }
+    .wv-bad { border-left-color: #dc2626; }
+    .wv-vtitle { font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .wv-vwhy { font-size: 13.6px; color: var(--text-secondary); line-height: 1.58; }
+    li.bib-hidden { display: none; }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">← Yi Zhang · Research Notes</a>
+      <div class="nav-actions">
+        <span>Visual &amp; Interactive Coding Survey</span>
+        <button class="theme-toggle" onclick="toggleTheme()">Light / Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="post-header">
+    <h1 class="post-title">走出终端之后：Visual Coding 与游戏评测的下半场</h1>
+    <p class="post-subtitle">从 62 篇论文与 10 篇一线技术博客看视觉与游戏编码：为什么代码强化学习的通用配方在这里失灵，以及我们该如何重新定义题目与验证器（2018–2026）</p>
+    <div class="post-meta">
+      <span>Date: 2026-11-17</span>
+      <span>Author: Visual Coding &amp; ModBench Research Notes</span>
+      <span>Scope: 62 Papers &amp; 10 Engineering Blogs (2018–2026.11)</span>
+    </div>
+  </header>
+
+  <div class="page-grid">
+    <aside class="sidebar">
+      <div class="toc-heading">Contents</div>
+      <div id="tocList"><a class="toc-link toc-l2" href="#s1-一-为什么纯文本代码的通用配方走出终端就失灵了">一、 为什么纯文本代码的「通用配方」走出终端就失灵了？</a>
+<a class="toc-link toc-l2" href="#s2-二-preliminary零图形学基础的两个直觉支点">二、 Preliminary：零图形学基础的两个直觉支点</a>
+<a class="toc-link toc-l3" href="#s3-21-从代码到画面为什么语法全对的程序会画出荒谬的空间结构">2.1 从代码到画面：为什么语法全对的程序会画出荒谬的空间结构？</a>
+<a class="toc-link toc-l3" href="#s4-22-六把测量的尺子当前-benchmark-是怎么设置-verifier-的">2.2 六把测量的尺子：当前 Benchmark 是怎么设置 Verifier 的？</a>
+<a class="toc-link toc-l2" href="#s5-三-上半场的幻觉为什么二维网页刷爆了三维与游戏却全线跳水">三、 上半场的幻觉：为什么二维网页刷爆了，三维与游戏却全线跳水？</a>
+<a class="toc-link toc-l3" href="#s6-31-第一堵墙离开浏览器排版引擎后空间连接与三维几何集体失明">3.1 第一堵墙：离开浏览器排版引擎后，空间连接与三维几何集体失明</a>
+<a class="toc-link toc-l3" href="#s7-32-第二堵墙静态单帧画得再像也推不出时间连续性与状态机规则">3.2 第二堵墙：静态单帧画得再像，也推不出时间连续性与状态机规则</a>
+<a class="toc-link toc-l3" href="#s8-33-第三与第四堵墙写了却没上屏的死代码与多资产真实引擎的水土不服">3.3 第三与第四堵墙：「写了却没上屏」的死代码，与多资产真实引擎的水土不服</a>
+<a class="toc-link toc-l3" href="#s9-34-透过先验环境奖励看本质模型为什么没学会这些事">3.4 透过「先验—环境—奖励」看本质：模型为什么没学会这些事？</a>
+<a class="toc-link toc-l2" href="#s10-四-重新思考评测假设怎么把原始资产切成公平且可验证的题目">四、 重新思考评测假设：怎么把原始资产切成公平且可验证的题目？</a>
+<a class="toc-link toc-l3" href="#s11-41-打破惯性一造题就是给段描述让模型从零生成一个完整作品">4.1 打破惯性一：「造题就是给段描述，让模型从零生成一个完整作品」</a>
+<a class="toc-link toc-l3" href="#s12-42-打破惯性二没有唯一标准答案时让大模型读代码或看截图打分就够了">4.2 打破惯性二：「没有唯一标准答案时，让大模型读代码或看截图打分就够了」</a>
+<a class="toc-link toc-l3" href="#s13-43-打破惯性三要测交互游戏就得派个-ai-从出生点一路玩通关">4.3 打破惯性三：「要测交互游戏，就得派个 AI 从出生点一路玩通关」</a>
+<a class="toc-link toc-l2" href="#s14-五-下半场的实战推演这对我们构建-modbench-有什么真正启发">五、 下半场的实战推演：这对我们构建 ModBench 有什么真正启发？</a>
+<a class="toc-link toc-l3" href="#s15-51-启发一把-task-manifest-往下延伸半步到活动子部件槽位彻底解开-6-道大题的自动视觉验收">5.1 启发一：把 task-manifest 往下延伸半步到「活动子部件槽位」，彻底解开 6 道大题的自动视觉验收</a>
+<a class="toc-link toc-l3" href="#s16-52-启发二别把1-个-mod--1-道三小时从零大题当成唯一出法用-130-mod-母库建自动化造题编译器">5.2 启发二：别把「1 个 Mod = 1 道三小时从零大题」当成唯一出法，用 130-Mod 母库建自动化造题编译器</a>
+<a class="toc-link toc-l3" href="#s17-53-启发三用1-条真人入口主链--n-个预置存档并发注入给评测提速并给答题-agent-装上秒级眼睛">5.3 启发三：用「1 条真人入口主链 + N 个预置存档并发注入」给评测提速，并给答题 Agent 装上秒级眼睛</a>
+<a class="toc-link toc-l2" href="#s18-结语">结语</a>
+<a class="toc-link toc-l2" href="#s19-参考文献与前沿技术博客编年索引2018--202611">参考文献与前沿技术博客编年索引（2018 – 2026.11）</a>
+<a class="toc-link toc-l3" href="#s20-a-范式讨论与能力边界一线技术博客10-篇按时间倒序">A. 范式讨论与能力边界一线技术博客（10 篇，按时间倒序）</a>
+<a class="toc-link toc-l3" href="#s21-b-学术基准与方法论文分类索引62-篇标注公开--发表期">B. 学术基准与方法论文分类索引（62 篇，标注公开 / 发表期）</a></div>
+      <div class="bib-search">
+        <div class="toc-heading">Filter Bibliography</div>
+        <input type="search" placeholder="e.g. 2026-10, Godot, Three.js..." oninput="filterBib(this.value)" />
+      </div>
+    </aside>
+
+    <article class="prose" id="proseRoot">
+      <blockquote><p><strong>TL;DR</strong>：我们正处在代码智能的中场时刻。在终端与纯文本仓库里，「大规模代码预训练先验 + 语言推理动作 + 单元测试可验证奖励（RLVR）」的通用配方已经跑通。但当代码走出终端、开始驱动三维渲染管线与游戏物理循环时，这套配方的三个支点同时失效了：<strong>预训练语料里没有三维光栅化的视觉后果，运行环境里最致命的渲染与挂载错误从不报错崩溃，而评测端失去了免费且唯一的字符串标准答案</strong>。本文面向没有计算机图形学背景的 AI 研究者与 Benchmark 制作者，把 2018–2026 年间 62 篇论文与 10 篇技术博客压缩成一条清晰的逻辑线：先用两个交互沙盘建立渲染与验证的直观直觉，再回答模型到底卡在哪四道能力断层、背后是什么训练根源，最后讨论该如何设计不翻车的题目与验证器，以及这对构建开源游戏模组基准 <code>ModBench</code> 意味着什么。</p></blockquote>
+<hr />
+<h2 id="s1-一-为什么纯文本代码的通用配方走出终端就失灵了">一、 为什么纯文本代码的「通用配方」走出终端就失灵了？</h2>
+<p>如果回顾过去两年代码大模型与 Coding Agent 的突飞猛进——从刷爆 <code>HumanEval (2021.07)</code>、拿下 IOI 金牌，到在 <code>SWE-bench (2023.10)</code> 上自动修补复杂的开源仓库 Issue——背后其实是一套高度统一的成功配方。借用姚顺雨在《<a href="https://ysymyth.github.io/The-Second-Half/" target="_blank" rel="noopener">The Second Half</a>》<code>(2025.04)</code> 中的拆解，强化学习之所以终于在代码与推理上实现泛化，是因为三个核心要素恰好咬合在了一起：<strong>强大的预训练先验</strong>（Priors）、<strong>以语言推理为动作空间的环境</strong>（Environment），以及<strong>快速且零歧义的自动验证器</strong>（Verifier）。</p>
+<p>在传统软件工程基准里，这三件事几乎是免费送给研究者的。GitHub 上数十亿行源码把一维符号逻辑烙进了预训练先验；当模型写错代码时，解释器会在 0.1 秒内抛出带精确行号的文本报错栈（Traceback），模型可以用它最擅长的自然语言推理去读报错、定位并改代码；而最终评判对错只需要跑一遍现成的单元测试 <code>assert f(x) == y*</code>。只要任务还留在这个闭环里，不断扩大算力就能稳步推高分数。</p>
+<p>那么，当我们让模型去做 <strong>Visual &amp; Interactive Coding</strong>——比如从设计稿生成前端应用、写 SVG 矢量动画、用 Blender 或 Three.js 搭建三维场景，或者在 Godot、Unreal 与 Minecraft 里开发可玩的游戏与模组时——发生了什么变化？</p>
+<p>表面上看，模型的输出依然是代码；但本质上，<strong>代码的评价终点从</strong>「<strong>符号返回值」变成了「渲染管线与物理循环在时间轴上产出的画面帧与交互状态</strong>」。就在这一步跨越中，支撑纯文本代码配方的三个隐含前提同时崩塌了：</p>
+<p>第一，<strong>答案不再唯一</strong>。写一个排序函数，输出数组是唯一确定的；但写一个「箱盖能绕铰链掀起的木宝箱」或「双滚筒矿石破碎机」，一千个程序员会写出一千套完全不同的类名、DOM 树层级与三维网格顶点。写死变量名的单元测试会误杀好代码，而直接拿参考截图做逐像素相减（<code>MAE == 0</code>），也会把换了合法配色或自建网格的正确作品全部判成零分。</p>
+<p>第二，<strong>编译通过不再代表任何事情</strong>。在算法题里，代码不抛异常跑完边界输入，逻辑多半已经对了八成。但在图形与游戏工程里，最致命的错误几乎全是「静默」的：代码 <code>100%</code> 编译通过、控制台零报错退出，渲染到屏幕上却是两个零件相互切入穿模、正面墙壁变成单向透明的隐形洞，或者核心类写得工工整整却根本没挂载进渲染主循环。</p>
+<p>第三，<strong>视觉裁判极易被表面假象欺骗</strong>。既然单元测试太死板，很多人自然想到：直接截几张图交给多模态大模型（VLM-as-a-Judge）打分不就行了？遗憾的是，模型很快就学会了用一张精致的静态背景图或不会动的漂亮外壳，从视觉裁判手里骗走高分，哪怕底下连最基本的碰撞和能量守恒都没写。</p>
+<p>看懂了这三重断裂，过去三年间六十多篇 Visual Coding 论文的演进就不再是一堆零散的缩写词条，而是一个非常自然的探索过程：<strong>我们究竟该如何测量一段「画在屏幕上、动在时间里」的代码？</strong></p>
+<hr />
+<h2 id="s2-二-preliminary零图形学基础的两个直觉支点">二、 Preliminary：零图形学基础的两个直觉支点</h2>
+<p>很多做大模型和 RL 的研究者一听到「三维坐标系、光栅化、法线、光流」就容易产生隔阂，觉得那是图形学专家的领地。其实站在造题与训练模型的视角，你完全不需要推导渲染方程，只需要透过两个直观沙盘看清两件事：<strong>一维代码在变成画面的路上最容易踩中哪五个坑</strong>，以及<strong>评测界目前手头究竟有哪六把测量的尺子</strong>。</p>
+<h3 id="s3-21-从代码到画面为什么语法全对的程序会画出荒谬的空间结构">2.1 从代码到画面：为什么语法全对的程序会画出荒谬的空间结构？</h3>
+<p>写二维网页时，模型其实占了一个巨大的便宜：浏览器的排版引擎（Flexbox / Grid）会自动替它算好每个盒子的宽高并流式换行，哪怕模型对像素坐标毫无概念，文字和按钮也很少叠成一团。但一旦跨入 SVG 矢量图、Three.js、Blender 或游戏三维世界，这层「自动防撞护栏」就撤掉了——每个部件摆在哪、绕哪根轴转、哪一面朝外，全靠代码里的数字硬算。</p>
+<p>请直接在下方沙盘中点击六个切换按钮，对比左侧实时渲染的三维宝箱与右侧触发故障的三行代码：</p>
+<div id="widget-3d-lab" class="interactive-widget"></div>
+<p>这五个画面几乎囊括了当前大模型在三维编码中 <code>80%</code> 以上的失败现场，它们背后的物理原因非常朴素：</p>
+<ul>
+<li><strong>谁朝天空没有统一标准</strong>（Y-up vs. Z-up）：WebGL 与 Three.js 默认 <code>+Y</code> 轴朝上，而 Blender、Unreal 与多数 CAD 工具默认 <code>+Z</code> 轴朝上。模型把两类语料混在一起学完后，经常直接把 <code>Z-up</code> 资产塞进 <code>Y-up</code> 场景而漏写绕 X 轴 \(90^\circ\) 的校准，物体当场翻倒趴在地上。</li>
+<li><strong>旋转前忘了移枢轴（Pivot），平移与旋转顺序不可颠倒</strong>：代码新建一个立方体时，默认原点在它肚子正中心 \((0,0,0)\)。想让箱盖像真实合页一样绕后边缘掀起，必须先把网格平移使后边缘对齐原点，再执行旋转（矩阵乘法 \(\mathbf{T}\cdot\mathbf{R} \neq \mathbf{R}\cdot\mathbf{T}\)）；如果直接在中心调 <code>rotation.x</code>，箱盖就会悬在半空原地自转，后半截直接切进箱体木板里（穿模）。</li>
+<li><strong>三角形顶点写反两个下标，墙壁就会隐形</strong>（背面剔除）：GPU 为了省一半算力，默认只画「外表面朝向摄像机」的三角面，而判断正反全看三个顶点在屏幕上是逆时针还是顺时针排列。模型生成网格数组时只要把 <code>[0, 1, 2]</code> 顺手写成 <code>[0, 2, 1]</code>，法线就翻转 \(180^\circ\) 朝向箱子内部，正对玩家的墙壁立刻变成单向透明的空洞。</li>
+<li><strong>代码数字写得越整洁，画面越可能剧烈闪烁</strong>（Z-fighting）：代码预训练语料让模型偏爱整洁的整数坐标——于是它把地板放在 <code>y = 0.0</code>，又把地毯贴花也放在 <code>y = 0.0</code>。两张面片到镜头的浮点距离完全相等，GPU 深度缓冲（Z-buffer）在相邻像素间随机交替判定谁遮挡谁，镜头微动就会爆出刺眼的锯齿闪烁。</li>
+</ul>
+<h3 id="s4-22-六把测量的尺子当前-benchmark-是怎么设置-verifier-的">2.2 六把测量的尺子：当前 Benchmark 是怎么设置 Verifier 的？</h3>
+<p>既然编译器对上述五类错误全部放行，评测者就必须在运行期接管画面或内存。如果把所有论文里的自动判分器拆开看，不管包装成什么新名字，底层其实都在组合使用以下 <strong>六种标准 Verifier 设置方案</strong>。你可以在下方沙盘左侧点选不同方案，并在右上角切换三种典型提交（标准正确解、合法换造型解、投机假实现），观察每把尺子的真实脾气：</p>
+<div id="widget-verifier-sandbox" class="interactive-widget"></div>
+<p>把这六种方案放在一起对比，你会发现它们其实沿着「<strong>对创意自由度的包容性</strong>」与「<strong>防模型钻空子的确定性</strong>」分成了三代：</p>
+<p>第一代尺子是<strong>拿标准参考答案硬比对</strong>（方案 1 逐像素差、方案 2 DOM 视觉块匹配与三维点云配准）。如果题目本身就要求唯一外观——比如修补前端图表 2 像素错位的回归测试，或者按工程图纸复刻唯一形状的机械零件——这套方法既快又准。在三维建模基准（如 <a href="https://arxiv.org/html/2410.05340" target="_blank" rel="noopener">CADPrompt (2024.10)</a> 与 <a href="https://arxiv.org/html/2505.19713" target="_blank" rel="noopener">CAD-Coder (2025.05)</a>）中，为了消除整体摆放位置的微小偏移，评测器会在生成网格与标准网格表面各均匀采样上万个三维点 \(P\) 与 \(Q\)，先运行<strong>迭代最近点算法</strong>（ICP）自动对齐旋转平移，再计算双向最近邻均方距离即<strong>倒角距离</strong>（Chamfer Distance）：</p>
+<div class="math-display">\[
+\mathrm{CD}(P, Q) = \frac{1}{|P|}\sum_{\mathbf{p}\in P}\min_{\mathbf{q}\in Q}\|\mathbf{p}-\mathbf{q}\|_2^2 + \frac{1}{|Q|}\sum_{\mathbf{q}\in Q}\min_{\mathbf{p}\in P}\|\mathbf{q}-\mathbf{p}\|_2^2
+\]</div>
+<p>但第一代尺子的局限是根本性的：<strong>现实中有价值的视觉与游戏任务大多没有唯一外观真值</strong>。一旦允许模型自由设计宝箱样式或网页排版，拿单一参考网格去算像素差或倒角距离，就会把合法的好设计错判成零分。</p>
+<p>于是第二代尺子彻底放弃了「比长相」，转向<strong>直接测量引擎内存结构与屏幕物理规律</strong>（方案 3 场景图探针、方案 4 时钟与光流测量）。既然不管宝箱长什么样都不能悬空、穿模或漏背面，那就先通过交卷清单（<code>manifest</code>）或轻量映射器把「箱体」「箱盖」绑定到内存里的三维网格节点，直接用几何程序算包围盒间隙与射线法线方向；既然不管雨林画成什么风格，「下雨」像素就必须往下动、「入夜」画面就必须变暗，那就在无头浏览器里固定机位连拍，直接测整帧亮度差（Luma）、变化像素占比 \(f_i\) 以及相邻帧像素运动的速度场即<strong>稠密光流</strong>（Optical Flow）。</p>
+<p>但纯物理测量也有盲区：它测得出两个圆柱体在反向旋转，却认不出这台机器画得像不像一台破碎机；而且对于流程长达半小时的游戏，怎么触发深层状态也是个大问题。这催生了第三代尺子：<strong>受控盲测视觉问答</strong>（方案 5）与<strong>白盒运行期状态注入</strong>（方案 6）。前者通过隐去画面自带的文字标签、随机洗牌多次提问二值结构题（<code>CodeVQA</code>）压制了视觉大模型的幻觉；后者则打破了「测游戏就得派个 AI 从第一关打到尾」的思维定势——既然评测端手里就有候选源码和存档结构，直接把游戏内存修补到待测前置状态 \(s_k\)（比如满电超载前夕），只跑 3 秒钟短操作测结果，彻底解开了复杂游戏的验证死结。</p>
+<hr />
+<h2 id="s5-三-上半场的幻觉为什么二维网页刷爆了三维与游戏却全线跳水">三、 上半场的幻觉：为什么二维网页刷爆了，三维与游戏却全线跳水？</h2>
+<p>有了第二节的坐标系，我们就能看清过去三年整个领域发生了什么。</p>
+<p>2024 年初，当多模态大模型刚刚具备不错的看图能力时，最自然的想法就是把「看截图写单页网页」或「看论文图写绘图脚本」做成基准——于是有了 <a href="https://aclanthology.org/2025.naacl-long.199.pdf" target="_blank" rel="noopener">Design2Code (2024.03)</a>、<a href="https://webcode2m.github.io/" target="_blank" rel="noopener">WebCode2M (2024.04)</a>、<a href="https://arxiv.org/html/2406.09961v1" target="_blank" rel="noopener">ChartMimic (2024.06)</a> 和 <a href="https://starvector.github.io/starvector/" target="_blank" rel="noopener">SVG-Bench (2024.12)</a>。起初开源模型在这些基准上表现平平，但很快，各大实验室用上半场最擅长的办法解决了它：往预训练和中期训练（Mid-training）里灌入数以亿计的合成与真实 <code>(HTML/CSS, 网页截图)</code> 配对数据。到了 2026 年初，像经过 15 万亿图文混合 Token 训练的 <a href="https://www.kimi.ai/ai-models/kimi-k2-5" target="_blank" rel="noopener">Kimi K2.5 (2026.01)</a>，在 <code>Design2Code</code> 上的得分已经冲到了 <code>91.3%</code>。</p>
+<p>如果只看这类榜单，人们很容易得出乐观的推论：视觉编码已经被通用配方攻克了，接下来无非是把单页网页扩成多页网站、把二维扩成三维。</p>
+<p>然而，当研究者和一线开发者真的把模型推进三维空间、连续视频动画和真实游戏引擎时，看到的却是一幅截然不同的图景。下图汇总了 2025 至 2026 年六项代表性评测的核心对比：同一批前沿模型，在<strong>静态外观、孤立元素建模或源码字面检查</strong>（蓝点）上普遍高达 <code>64%</code>～<code>91%</code>；可一旦测量标准切换到<strong>真实游戏引擎开发、连续时序运动、动态交互反馈或完整规则达标率</strong>（红点），成绩无一例外地跳水到 <code>20%</code>～<code>53%</code>。</p>
+<figure class="paper-fig">
+  <img src="assets/svg/capability_gap_chart.svg" alt="2025-2026 前沿大模型在 Visual Coding 上的表层高分与深层崩盘对比图" />
+  <figcaption><strong>图 1（表层高分与深层能力的巨大剪刀差）</strong>：跨越网页前端、动画视频逆向、PyGame、浏览器游戏、Three.js 世界与 Godot 引擎六大场景，前沿模型在静态表层指标（蓝点）上已近饱和，但在三维空间、时序对齐、渲染挂载与完整状态机规则（红点）上集体失守。</figcaption>
+</figure>
+<p>为什么会出现如此整齐划一的断层？把社区里讨论最热烈的十篇一线博客与最新实验证据拼在一起，我们可以看清挡在模型面前的四堵墙，以及它们背后共同的训练根源。</p>
+<h3 id="s6-31-第一堵墙离开浏览器排版引擎后空间连接与三维几何集体失明">3.1 第一堵墙：离开浏览器排版引擎后，空间连接与三维几何集体失明</h3>
+<p>最早察觉到「高分幻觉」的是独立开发者。Simon Willison 从 <code>[2024-10]</code> 开始用一个极简题目测试所有新发布的大模型：不给参考图，直接写一段画「骑自行车的鹈鹕」的 SVG 代码（<a href="https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/" target="_blank" rel="noopener">Pelicans on a bicycle</a>）。Joe Faith <code>(2025)</code> 与 Sichi Chen 在 <code>[2026-10]</code> 的 <a href="https://dev.to/sichi_chen_a4a87b20aa2dbf/how-do-you-score-a-pelican-on-a-bicycle-turning-a-viral-svg-test-into-an-evaluation-you-can-audit-2d31" target="_blank" rel="noopener">Folkbench 审计长文</a> 中点破了这道题的精妙之处：没有 CSS 盒模型帮忙排版后，SVG 强迫模型显式拆解零件并算出它们的机械连接关系。模型往往能在代码注释里头头是道地标出车把、车架与脚踏板，但画出来的车把悬在半空不连车架，双脚漂浮在踏板上方；更让人意外的是，Robert Glaser 与 Simon Willison 在 <code>[2025-11]</code>（<a href="https://simonwillison.net/2025/Nov/11/agentic-pelican-on-a-bicycle/" target="_blank" rel="noopener">Agentic Pelican</a>）尝试让视觉模型「看一眼自己渲染出的图再重写」，连续迭代四轮后发现，<strong>空间构图在第一轮生成时就已经锁死了</strong>——模型只会顺着错掉的车架添羽毛、改渐变色，几乎不会推翻重设底层几何坐标。</p>
+<p>一旦进入三维世界，这种空间失明就变成了灾难。开发者 <code>0x0ndra</code> 在 <code>[2025-11]</code> 撰写的实战笔记 <a href="https://ondra-vlasek.cz/blog/vibecoding-threejs-webgl-2025.html" target="_blank" rel="noopener">Vibecoding Three.js: when AI hit the wall of 3D</a> 中写道：模型五秒钟就能搭好场景、相机和动画循环的样板工程，但只要一句「让所有面板绕中心弧形排开并面向观众」，它就会在坐标系朝向、四元数乘序和无法打印日志调试的 GLSL 着色器里彻底迷失，极其自信地交付一堆背对镜头的面板。十个月后，Instaplay 团队基于四万多款小游戏的线上故障构建了 <a href="https://3jsbench.com/methodology" target="_blank" rel="noopener">3JSBench (2026.09)</a>，对 13 个前沿模型的 3,000 次生成做三维场景树体检，结果与 2.1 节沙盘严丝合缝：最高频死因正是<strong>部件相互穿模</strong>（<code>20%</code>）、<strong>法线反穿导致正面透明漏面</strong>（<code>19%</code>）、<strong>共面深度竞争闪烁</strong>（<code>17%</code>）、<strong>朝向错误</strong>（<code>16%</code>）与<strong>悬空断连</strong>（<code>16%</code>）（下图 2 右下角展示了 <a href="https://arxiv.org/abs/2609.36777" target="_blank" rel="noopener">Code4Scene (2026.09)</a> 在 Unreal Engine 5 中抓拍到的同款大面积悬空与穿模实况）。</p>
+<figure class="paper-fig">
+  <img src="assets/papers/code4scene_case.png" alt="Code4Scene 在 Unreal Engine 5 中的三维场景构建与悬空穿模真实负例" />
+  <figcaption><strong>图 2（源自 Code4Scene [2026.09] Fig. 4）</strong>：真实游戏引擎中的三维构建与物理失效。上半部分显示 Agent 初稿中有高达 <code>47.9%</code> 的物体发生碰撞穿模，必须靠引擎碰撞探针回传坐标才能修正；右下角展示了无工具兜底时最典型的两类废片——大量建筑方块悬在半空（左，支撑合格率仅 <code>0.172</code>）以及建筑网格相互切入重叠（右，无碰撞率仅 <code>0.107</code>）。</figcaption>
+</figure>
+<h3 id="s7-32-第二堵墙静态单帧画得再像也推不出时间连续性与状态机规则">3.2 第二堵墙：静态单帧画得再像，也推不出时间连续性与状态机规则</h3>
+<p>第二重幻觉发生在从「静态画面」走向「动态交互」的时刻。Andrej Karpathy 在 <code>[2026]</code> 复盘大模型生成《指环王》Three.js 动态世界的实验时一针见血地指出（<a href="https://explainx.ai/blog/karpathy-opus-5-lord-of-the-rings-threejs-world-2026" target="_blank" rel="noopener">深度复盘</a>）：模型写几千行三维代码毫不费力，但它<strong>没法像人一样流畅地看视频或亲自进场试玩自己造的东西</strong>；它只能极其笨拙地挑一个时间点截一张静态图，再去猜两帧之间发生了什么，结果留下了满屏的帧间瞬移、动画抽搐与交互卡顿。</p>
+<p>回头看图 1 里的数字，这种「静态强、动态弱」的分裂触目惊心：在包含上千段网页动画视频的 <a href="https://arxiv.org/html/2606.28593" target="_blank" rel="noopener">Animation2Code (2026.06)</a> 中，模型生成代码的可执行率超过 <code>97%</code>、静态外观相似度高达 <code>0.84</code>，但衡量运动轨迹还原度的<strong>时序相似度最高只有</strong> <code>0.32</code>；在根据操作视频重建交互网页的 <a href="https://arxiv.org/html/2509.24709" target="_blank" rel="noopener">IWR-Bench (2025.09)</a> 上，视觉还原分 <code>64.3%</code>，交互功能分只有 <code>24.4%</code>；而在评估三千多个 PyGame 项目的 <a href="https://arxiv.org/html/2610.04253v1" target="_blank" rel="noopener">Spec2Game-Bench (2026.10)</a> 与浏览器游戏基准 <a href="https://arxiv.org/html/2605.17637v2" target="_blank" rel="noopener">WebGameBench (2026.05)</a> 里，模型画静态游戏元素能拿 <code>80.8</code> 分、凑出最低限度能玩的流程能到 <code>76.9%</code>，一旦严查核心规则机制（<code>45.7</code> 分）、胜负终局逻辑（<code>44.1</code> 分）、动态反馈（<code>32.1</code> 分）和完整规格达标率（仅 <code>20.2%</code>），分数立刻腰斩过半。</p>
+<h3 id="s8-33-第三与第四堵墙写了却没上屏的死代码与多资产真实引擎的水土不服">3.3 第三与第四堵墙：「写了却没上屏」的死代码，与多资产真实引擎的水土不服</h3>
+<p>更隐蔽的问题出在软件工程规模放大之后。开发者 Yohsuke 在 <code>[2026]</code> 让 11 个 AI Agent 协作开发一款浏览器游戏，三天后他在复盘文章 <a href="https://zenn.dev/yohsuke_zw/articles/0170dca5dcdae3?locale=en" target="_blank" rel="noopener">Most Bugs Were &quot;Written but Not Running&quot;</a> 中写下了一个令所有做代码评测的人警醒的结论：查出来的十几个严重 Bug 里，没有一个是漏写算法——<strong>代码全都在文件里写好了，构建零警告通过，运行时也没有任何报错，但这些函数根本没有被挂载到渲染主循环或活动场景树上，屏幕上什么都没发生</strong>。Krish Bakshi 在 <a href="https://arxiv.org/html/2610.10622" target="_blank" rel="noopener">WorldBench (2026.10)</a> 中定量验证了这个现象：对五个顶级模型生成的 Three.js 世界逐项核对 365 条需求时，读源码裁判判过的比例高达 <code>79%</code>，实机画面真正拍到的比例却只有 <code>53%</code>；两者冲突的 115 项里，有 <strong>105 项都是躺在文件里从未上屏的死代码</strong>。</p>
+<p>而当我们把在单文件网页上风光无限的模型放进真正的游戏引擎仓库时，最后一层面纱也被揭开了。前面提到 <code>Kimi K2.5</code> 在网页前端 <code>Design2Code</code> 上拿到了 <code>91.3%</code>；但 CMU 团队将它放进包含 333 道 Godot 4 真实开发任务的 <a href="https://waynechi.com/gamedevbench/" target="_blank" rel="noopener">GameDevBench (2026.05)</a> 后，它的解决率直接跌到了 <code>20.7%</code>（即便全场最强的闭源 Agent 配齐截图与录屏反馈也仅解出 <code>53.8%</code>）。为什么？因为真实游戏工程不是写一个自包含的 <code>index.html</code>：模型必须同时读懂整张未切分的角色精灵表（结果经常把第 1 行的走路帧误绑成第 3 行的挥剑攻击帧，导致 2D 动画与 UI 类任务通过率仅 <code>32%</code>～<code>33%</code>），还要在跨文件的节点树与信号槽之间准确接线。雪上加霜的是，在已有复杂关卡里做局部修改时，模型极度缺乏边界感——<code>Code4Scene</code> 在 Unreal 关卡修复任务上测得最高 <code>Repair F1</code> 仅为 <code>0.527</code>，<code>35.8%</code> <strong>修好目标物体的提交顺手改坏了周围原本正常的场景资产</strong>。</p>
+<h3 id="s9-34-透过先验环境奖励看本质模型为什么没学会这些事">3.4 透过「先验—环境—奖励」看本质：模型为什么没学会这些事？</h3>
+<p>如果我们跳出单篇论文的现象，顺着第一节的 RL 三要素去追问：<strong>为什么能拿 IMO 金牌、能修复杂后端 Bug 的模型，偏偏学不会「别穿模、别把墙画反、把运动时序对齐、把写好的函数连上屏幕」？</strong> 原因并不神秘，恰恰是因为这三件事在现有的训练管线里同时处于盲区：</p>
+<p>第一，<strong>中期训练（Mid-training）的跨模态先验是高度偏科的</strong>。模型吃过海量的 <code>(HTML, 2D 网页截图)</code> 和静态图文对，所以内化了二维流式排版与单帧物体长相；但公开互联网上几乎不存在「修改一行四元数旋转顺序或调换两个顶点下标 → 三维深度/法线渲染发生穿模或漏面」的交错轨迹，静态视觉编码器也缺乏对跨帧速度、加速度与动作相位差的细粒度表征。在一维代码 Token 分布里，<code>[0, 1, 2]</code> 和 <code>[0, 2, 1]</code> 语法概率几乎一样，<code>y = 0.0</code> 甚至比防闪烁的 <code>y = 0.004</code> 更符合人类代码的整洁习惯——模型顺着文本先验最自然写出来的代码，在三维光栅化物理里恰好就是错的。</p>
+<p>第二，<strong>后训练强化学习（RLVR）遭遇了严重的</strong>「<strong>奖励失明</strong>」。现有代码 RL 依赖编译器退出码和单元测试给奖励，可上面所有的三维穿模、背面透明、深度闪烁和未挂载死代码在运行时全部<strong>零报错退出</strong>，在纯代码执行奖励下不仅不会受罚，反而会作为通过编译的正样本被强化。那换用视觉相似度（比如 <code>CLIP</code> / <code>SigLIP2</code> 余弦分或单张正面截图 VLM 打分）当 RL 奖励行不行？<code>3JSBench</code> 与 <a href="https://arxiv.org/html/2610.02617" target="_blank" rel="noopener">WebUIProof (2026.10)</a> 的 <code>VisRL</code> 消融实验证明也不行：全局视觉池化特征对局部 <code>5%</code> 的穿模几乎毫无反应，单张静态帧根本拍不到随时间跳变的闪烁，而只优化截图美观度只会把策略推向「画一个漂亮但点不动的静态假壳」。</p>
+<p>第三，<strong>函数级刷题惯性破坏了全局接线与背景不变性</strong>。长期在独立函数补全和孤立单测上训练，让模型养成了「写完核心计算函数就交卷」的局部习惯，缺少跨文件检查全局场景树挂载（Wiring）的闭环意识；同时，生成式训练往往只奖励「目标物体出现了（Recall）」，却很少惩罚「把周围没让你动的东西改坏了（Non-interference）」，这才导致局部编辑时出现超过三分之一的连带破坏。</p>
+<hr />
+<h2 id="s10-四-重新思考评测假设怎么把原始资产切成公平且可验证的题目">四、 重新思考评测假设：怎么把原始资产切成公平且可验证的题目？</h2>
+<p>在《The Second Half》里有一句很扎心的话：做评测最难的不是把题目出得更难，而是<strong>质疑那些我们习以为常、误以为是自然定律的评测默认假设</strong>。</p>
+<p>当我们手头拿到一批高质量的原始资产——无论是 SVG 与 GLSL 着色器脚本、React 前端工程、带 <code>.blend</code> 源文件的三维模型、Three.js 实时物理场景，还是像 Godot、Unreal 与 Minecraft 那样包含场景树、逻辑脚本、精灵表与存档层的复合游戏仓库——想要把它们变成既能客观排名、又能提供干净 RL 奖励的 Benchmark，就必须打破以下三个根深蒂固的惯性假设。</p>
+<h3 id="s11-41-打破惯性一造题就是给段描述让模型从零生成一个完整作品">4.1 打破惯性一：「造题就是给段描述，让模型从零生成一个完整作品」</h3>
+<p>几乎所有早期基准都默认采用「从零构建（From-Scratch）」模式：把原资产的代码删光，只留一张目标渲染图或一份需求文档让模型重头写。这种出题方式最符合直觉，但作为造题者你会立刻撞上两个工程代价：一是单题运行周期极长（动辄几十分钟），二是模型自由起类名、自由建网格后，下游自动判分器的编写难度呈指数级上升——你必须额外设计一套语义对齐契约（比如让模型交卷时填写角色映射表 <code>manifest</code>，或像 <code>3JSBench</code> 那样专门训练一个轻量部件绑定器把题面名词映射到内存 <code>Mesh</code> 节点）。</p>
+<p>回顾 2025 至 2026 年最成功的几个硬核工程基准，它们之所以能快速构建出数百道 <strong>100% 全自动确定性判分</strong> 的题目，正是因为跳出了「只能从零造整包」的执念，在五类原始资产上发展出了另外两条高信噪比切题路径（表 1 与图 3）：</p>
+<div class="table-wrap"><table><thead><tr><th>原始资产形态</th><th>磁盘与内存中的核心组织结构</th><th>从零构建之外的高效切题方式</th><th>代表基准（附发布期）</th></tr></thead><tbody><tr><td><strong>纯符号矢量与着色器</strong></td><td>单文件纯文本，靠数学公式与坐标字面量直接算出像素或路径。</td><td>挖掉核心距离场/光照子函数体，保留函数签名与前置上下文，多组输入下做渲染帧语义克隆比对。</td><td><code>ShaderMatch (2025.05)</code>、<code>SVGenius (2025.06)</code>、<code>VCode (2025.11)</code></td></tr><tr><td><strong>声明式前端与版式树</strong></td><td>组件树源码 + CSS + 媒体资源，浏览器自动维护 DOM 与包围盒。</td><td>给不完美中间态做多轮组件修复，或给用户操作视频配静态素材包重建交互状态。</td><td><code>DesignBench (2025.06)</code>、<code>VISTA (2026.08)</code>、<code>IWR-Bench (2025.09)</code></td></tr><tr><td><strong>Blender 与参数化 CAD</strong></td><td><code>.blend</code> 底座（固化相机/灯光/形态键槽位）+ <code>bpy</code>/<code>CadQuery</code> 程序脚本。</td><td>在目标脚本 <code>goal.py</code> 上单向扰动材质连线、隐藏光源或几何参数生成 <code>start.py</code>，对照渲染图做差分修复。</td><td><code>CADPrompt (2024.10)</code>、<code>BlenderGym (2025.02)</code>、<code>BlenderBench (2026.01)</code></td></tr><tr><td><strong>Three.js 实时三维世界</strong></td><td>运行期在浏览器内存中动态装配 <code>THREE.Scene</code> 树并挂接物理循环。</td><td>给明确部件装配简报直测场景树几何，或在交互物理场景上由 Agent 遍历合成 3,000 条可执行断言。</td><td><code>3JSBench (2026.09)</code>、<code>WorldBench (2026.10)</code>、<code>WebUIProof (2026.10)</code></td></tr><tr><td><strong>游戏引擎多模态复合仓</strong></td><td>场景树（<code>.tscn</code>/<code>.umap</code>）+ 状态脚本 + 未切分精灵表/<code>.obj</code>/音效 + 存档。</td><td>① 顺着教程挖空子节点与信号；② 向黄金关卡注入原子破坏或 20+ 可逆缺陷；③ 1 母题派生 9 个规则变体。</td><td><code>GameDevBench (2026.05)</code>、<code>Code4Scene (2026.09)</code>、<code>Spec2Game (2026.10)</code>、<code>GameXpert-Bench (2026)</code></td></tr></tbody></table></div>
+<p>看一眼下图 3 中 <code>Code4Scene</code> 的双路径对比就能明白其中的巧思：在下半部分的「精确可验证修复」中，造题者把人类艺术家搭好的完好关卡留作评测端隐藏真值，只用程序向副本施加删除、复制、替换、平移、旋转等八种原子破坏。这样一来，不仅完全免去了手写复杂语义裁判的痛苦，还能直接拿修复后的场景跟隐藏真值做精确对比，同时算出<strong>目标修好率</strong>（Recall）与<strong>周围背景零误伤率</strong>（Precision）。同理，<code>Spec2Game-Bench</code> 在同一套昂贵的 PyGame 评测底座上为每个游戏派生「1 个标准题 + 9 个改规则/改参数的受控变体」，零额外夹具成本就戳破了预训练背板泡沫。</p>
+<figure class="paper-fig">
+  <img src="assets/papers/code4scene_tasks.png" alt="Code4Scene 将人工搭建的三维资产转化为开放构建与原子破坏修复两类可验证题面的流程" />
+  <figcaption><strong>图 3（源自 Code4Scene [2026.09] Fig. 2）</strong>：同一份三维资产的两种切题思路。（a）从零构建提供最大自由度，但判分需组合规则检查与视觉语义裁判；（b）对完好资产施加受控的原子破坏（对象增删替换 + 空间平移旋转缩放），把原资产留作隐藏真值，天然获得毫秒级、零歧义且兼顾防误伤的自动判分器。</figcaption>
+</figure>
+<p>无论采用哪种切法，造题冻结前都必须加一道 <code>GameDevBench</code> <strong>式的「题面—测试双向对齐审计</strong>」。他们在人工复查自动生成的题目时发现，整整一半的初稿都犯了同一个毛病：测试脚本里写死了字符串零填充格式或特定节点名，公开题面里却根本没提。解决办法简单而有效：派一个独立的审计 Agent 把公开题面和测试源码逐条比对，凡是在题面里找不到无歧义明文依据的 <code>assert</code>，一律禁止上线。</p>
+<h3 id="s12-42-打破惯性二没有唯一标准答案时让大模型读代码或看截图打分就够了">4.2 打破惯性二：「没有唯一标准答案时，让大模型读代码或看截图打分就够了」</h3>
+<p>当题目确实需要评估开放式的视觉表现时，很多造题者会偷懒选一条单通道捷径：要么让 LLM 读源码打分，要么截两张图让 VLM 打印象分。</p>
+<p>前面 3.3 节已经看到，只读源码会被「写了却没挂载上屏的死代码」骗走 <code>4/5</code> 的分数；那只看截图呢？下图 4 展示了 <code>WorldBench</code> 抓到的经典反例：左下角的世界里雨林完全静止（固定机位连拍实测 <code>0.0%</code> <strong>像素变化</strong>），视觉大模型看着树叶和雾气却言之凿凿地判定「有垂直下落的雨滴粒子」；而面对右图四季切换带来的真实色度偏移（秋季偏移达 <code>0.035</code>），视觉大模型又粗糙地漏判为「四张画面完全一样」。再加上 <a href="https://blendergym.github.io/" target="_blank" rel="noopener">BlenderGym (2025.02)</a> 在近八千次人类对比中测出单次 VLM 对齐率最高只有 <code>0.66</code> 且自带强烈的选项顺序偏见，单通道大模型裁判在严肃评测中是不可接受的。</p>
+<figure class="paper-fig">
+  <div class="fig-grid-2">
+    <img src="assets/papers/worldbench_burst.png" alt="WorldBench 固定相机连拍像素变化率拦截视觉大模型静态雨滴幻觉" />
+    <img src="assets/papers/worldbench_clock.png" alt="WorldBench 外部时钟补丁实测昼夜亮度与四季色度变化" />
+  </div>
+  <figcaption><strong>图 4（源自 WorldBench [2026.10] Fig. 6 与 Fig. 4）</strong>：为什么视觉裁判必须受物理像素测量约束。<strong>左图</strong>：固定相机连拍直接测出下排画面像素变化率为 <code>0.0%</code>，一票否决了 VLM 凭静态氛围脑补出的「下雨」幻觉；<strong>右图</strong>：通过外部时钟补丁直接测量昼夜亮度（Luma）与四季色度偏移，纠正了 VLM 对细微连续色彩变化的失明。</figcaption>
+</figure>
+<p>真正稳健的做法是遵循 「<strong>物理与几何归程序硬测，高层语义归去标签盲测问答，且源码与画面双通道互证</strong>」：凡是能算的——穿模体积、悬空间隙、背面法线、昼夜亮度、帧间变化像素比 \(f_i\) 与光流方向——100% 交给数学探针；只有「画得像不像某个部件」交给剥离了全部 UI 文字标签（防看字猜图）、经随机洗牌多次采样的二值客观问答（如 <a href="https://aclanthology.org/2026.emnlp-main.2229/" target="_blank" rel="noopener">ArtifactsBench (2025.07)</a> 的三阶段清单与 <code>VCode</code> 的 <code>CodeVQA</code>）。计分时采用双通道交叉约束：设引擎内部状态/有效代码核验为 \(c_i \in \{0,1\}\)，受控画面核验为 \(v_i \in \{0,1\}\)，实测像素运动门控为 \(m_i \in \{0,1\}\)，动态条目按 \(g_i = p_i(\frac{1}{2}c_i + \frac{1}{2}v_i \cdot m_i)\) 结算——死代码没上屏最多拿一半分，贴静态假图没物理状态或像素没动则运动分直接清零。</p>
+<h3 id="s13-43-打破惯性三要测交互游戏就得派个-ai-从出生点一路玩通关">4.3 打破惯性三：「要测交互游戏，就得派个 AI 从出生点一路玩通关」</h3>
+<p>最后一个常见惯性来自 Web 自动化评测：既然测网页可以用 Playwright 派个 GUI Agent 去点按钮（如 <a href="https://proceedings.neurips.cc/paper_files/paper/2025/file/6841eed8bb6a2ec49e49235c8115efee-Paper-Datasets_and_Benchmarks_Track.pdf" target="_blank" rel="noopener">WebGen-Bench (2025.05)</a> 与 <a href="https://proceedings.mlr.press/v306/he26n.html" target="_blank" rel="noopener">Vision2Web (2026.04)</a>），那测生成的游戏也派个试玩 Agent（Agent-as-a-Verifier）从头玩一遍不就好了？</p>
+<p>在三步就能点完的网页表单里这没问题，但在状态空间随时间指数级分叉的游戏里，这会把验证拖入泥潭——如果试玩 Agent 自己操作笨拙死在了第一关，后面写得再好的合成台、满电超载保护或 Boss 战机制就永远测不到了。<a href="https://arxiv.org/abs/2605.07442" target="_blank" rel="noopener">GameGen-Verifier (2026.05)</a> 在 100 款游戏上实测发现，哪怕套上强制覆盖清单，开放试玩代理与人类专家判断的一致率也只有 <code>58.8%</code>。</p>
+<p>他们的破局思路非常干净（下图 5）：<strong>评测不是打通关比赛，没必要从零走到待测状态</strong>。既然评测端握有模型生成的白盒源码或存档结构，完全可以把需求拆成一组局部的霍尔逻辑单元 \(\{P_k\}\ \mathbf{a}_k\ \{Q_k\}\)（前置条件、短操作、预期结果），直接用脚本把游戏内存或存档修补到前置状态 \(s_k\)（比如直接把玩家刷在石头前、手里塞把木镐），只执行 1.15 秒按住左键的操作，立刻检查有没有掉落圆石。仅仅把「长路径试玩探索」改写成「白盒运行期状态注入」，人类一致率就从 <code>58.8%</code> 跃升至 <code>92.2%</code>，评估耗时缩短了 <code>16.6×</code>，而且每个独立的 3 秒测试单元天然就能并行跑，直接解决了强化学习最头疼的采样吞吐瓶颈。</p>
+<figure class="paper-fig">
+  <img src="assets/papers/gamegen_design.png" alt="GameGen-Verifier 将自然语言规格提取为关键点并通过白盒运行期状态注入并发验证" />
+  <figcaption><strong>图 5（源自 GameGen-Verifier [2026.05] Fig. 3）</strong>：用「白盒运行期状态注入」取代漫长的从头试玩。将规格拆为独立的短时验证单元 \((s_k, i_k, y_k)\)，直接向运行时注入目标坐标与背包前置态，并发执行数秒钟的有界交互即可精确定位缺失机制。</figcaption>
+</figure>
+<hr />
+<h2 id="s14-五-下半场的实战推演这对我们构建-modbench-有什么真正启发">五、 下半场的实战推演：这对我们构建 <code>ModBench</code> 有什么真正启发？</h2>
+<p>把上面所有的线索收拢回来，现在我们可以非常清醒地审视手头正在建设的开源游戏模组基准 <code>ModBench</code>（<code>game-mod-bench</code> / <code>doc2mod</code>，底层拥有覆盖 Minecraft、Luanti、GZDoom、CDDA 等 13 款游戏的 <strong>130 个真实开源 Mod 母库</strong>，目前已做出 8 道全自动中小题和 7 道复杂系统大题）。</p>
+<p>如果用下半场的标准来衡量，<code>ModBench</code> 之所以极具稀缺价值，恰恰因为它从一开始就拒绝了单文件网页玩具，直接踩在了学术界最缺的三个真实工程维度上：一是<strong>在数万至二十万行级真实引擎里要求代码</strong>、<code>.blend</code><strong>/</strong><code>.obj</code> <strong>三维网格</strong>、<code>.png</code> <strong>贴图与音频跨模态自洽</strong>；二是<strong>物理权限隔离配合低权限账号</strong> <code>UID 65534</code> <strong>从纯源码与原始美术源净室重编</strong>，配以 <code>task-manifest.json</code> 语义槽位释放命名自由度；三是<strong>真杀进程</strong>（<code>kill -9</code>）<strong>的双容器冷重启读档测试</strong>（比如两台处在不同下压深度的冲压机断电存盘、新进程恢复供电后必须按原进度先后产出且物料守恒）。这三点领先于目前几乎所有公开基准，绝不能为了图省事而降级。</p>
+<p>但与此同时，<code>ModBench</code> 目前遇到的三大现实卡点——<strong>第二批 7 道大题里有 6 道卡在</strong> <code>native_review_required</code> <strong>没法全自动出分</strong>、<strong>Agent 在 1 小时预算内几乎不调 Blender 纯靠盲猜三维坐标</strong>、以及<strong>单局 60～180 分钟全量编译试错太重难以接入高频 RL 训练</strong>——如果放在刚刚梳理完的文献坐标系里看，其实是因为我们在不知不觉中背上了两个完全可以卸掉的「旧假设包袱」。卸掉它们，就能直接打开下面这套<strong>双轨升级蓝图</strong>（图 6）：</p>
+<figure class="paper-fig">
+  <img src="assets/svg/modbench_blueprint.svg" alt="ModBench 造题与全自动验证器双轨工程升级蓝图" />
+  <figcaption><strong>图 6（ModBench 双轨工程升级蓝图）</strong>：轨道 A 面向旗舰级从零构建大题，通过子部件槽位下沉、测试存档并发注入与状态锁光流盲答彻底解除人工复核门控；轨道 B 面向 130-Mod 原料池，用局部挖空、可逆多模态缺陷注入与同夹具规则变体簇低成本批量产出 15 分钟级 RL 训练与诊断题。</figcaption>
+</figure>
+<h3 id="s15-51-启发一把-task-manifest-往下延伸半步到活动子部件槽位彻底解开-6-道大题的自动视觉验收">5.1 启发一：把 <code>task-manifest</code> 往下延伸半步到「活动子部件槽位」，彻底解开 6 道大题的自动视觉验收</h3>
+<p>为什么像 Immersive Engineering 38 块破碎机（双滚筒反向旋转）、Create 齿轮应力传动或 Doom 逐发装填霰弹枪这 6 道大题会卡在半自动复核上？因为我们之前默认了一个过于严苛的黑盒假设：只让模型在 <code>task-manifest.json</code> 里声明整台机器的方块 ID（如 <code>crusher</code>），至于机器内部的机身和左右两个滚筒是怎么建的，评测器完全不问，只试图从外面的游戏摄像机截视频看固定像素框（ROI）动没动——结果模型自建的滚筒位置稍微偏半格就出框，破碎机喷出的矿石粒子火花还会干扰像素帧差，但如果退回去像早期活塞题那样卡死 <code>MAE ≤ 3</code> 像素重合，又会把合法自建的 Blender 模型全部误杀。</p>
+<p>参照 <code>3JSBench</code> 的部件映射与 <code>WorldBench</code> 的双通道门控，破局其实只需要把契约往下延伸半步：<strong>不限制模型怎么自由建模，但在公开契约</strong> <code>task-manifest.json</code> <strong>里要求显式声明可动子部件的网格或动画状态槽位</strong>（例如破碎机声明 <code>chassis_mesh</code>、<code>drum_left_mesh</code>、<code>drum_right_mesh</code> 三个导出 <code>.obj</code> 部件槽位，霰弹枪声明待机、单发塞弹与开火打断的状态名）。仅仅加上这几个公开键名，原本棘手的视觉复核立刻拆解成了三步 <code>100%</code> 自动化的程序流水线：</p>
+<ol>
+<li><strong>静态网格体检</strong>（秒级确定性）：构建阶段直接扫描这三个 <code>.obj</code> 文件，用几何脚本硬测部件包围盒是否连接无悬空、外法线是否朝外无反穿漏面；</li>
+<li><strong>物理状态前置 + 无粒子光流测转向</strong>：进实机验证时关闭粒子特效层，硬性要求「只有在后台能量真在扣减、矿石真在转化的时刻，左右滚筒子部件对应的投影区域才出现非零像素变化且切向光流符号相反；断电或空载耗尽时像素变化率归零」；</li>
+<li><strong>去 HUD 六机位洗牌二值问答收尾</strong>：隐去一切界面调试文字，把六视角关键帧拼图随机洗牌送入本地冻结的多模态模型，只问客观结构二值题（如「进料漏斗与双滚筒是否均清晰可见？」）。再补上一道冻结前的 <strong>双向防歧义审计</strong>（根治早期电网题 <code>Charge: 20000 / 40000 EU</code> 合法共享单位后缀被正则漏判的误伤）与 <strong>死代码变异校准</strong>，剩余 6 道旗舰大题就能稳稳合入全自动闭环。</li>
+</ol>
+<h3 id="s16-52-启发二别把1-个-mod--1-道三小时从零大题当成唯一出法用-130-mod-母库建自动化造题编译器">5.2 启发二：别把「1 个 Mod = 1 道三小时从零大题」当成唯一出法，用 130-Mod 母库建自动化造题编译器</h3>
+<p>如果每一道题都坚持让模型从空白目录写几千行代码加全套三维模型，不仅人工造一道题并校准通用 Verifier 要花几周时间，更现实的瓶颈在于<strong>没法拿来训模型</strong>：Agent 跑一局要一两个小时，前期大量轨迹因为超时或摸索离线引擎 API 交白卷拿 <code>0</code> 分，强化学习根本拿不到有效的梯度信号去补齐 3.4 节指出的三维与引擎先验短板。</p>
+<p>看看服务器上已经跑通实机启动截图的那 <strong>130 个完整开源 Mod 原材料库</strong>——它们最大的价值，其实不是拆成 130 道让人望而生畏的三小时大题，而是作为一套<strong>多粒度任务与奖励编译器</strong>（图 6 轨道 B）：</p>
+<ul>
+<li><strong>第一招：基于原版黄金仓库的「可逆多模态缺陷注入」（借鉴</strong> <code>Code4Scene</code> <strong>与</strong> <code>GameXpert-Bench</code>）。直接把跑通的原版开源 Mod 留作评测端隐藏真值（Gold Mod），写自动化变异脚本往副本里精准注入模型最常犯的真实跨模态 Bug——比如：故意把某个机器 <code>.obj</code> 的三角面法线翻转造成游戏里单面透明、把角色精灵表的行走帧和攻击帧绑错行号、删掉存档 <code>writeNBT</code> 里的半程进度字段、或者断开渲染注册制造「代码在但画面不转」的接线故障。把「带病的三万行真实 Mod 仓库 + 实机异常截图/短视频」交给 Agent 去定位修复。<strong>你会发现造题成本瞬间降了一个数量级</strong>：因为原版仓库本身就是天然真值，根本不需要手写跨异构判分器，直接跑一遍目标缺陷消除测试（<code>FAIL_TO_PASS</code>）加上周围原有机器零误伤回归测试（<code>PASS_TO_PASS</code>），10～15 分钟就能跑完一局高信噪比的 RL Rollout！</li>
+<li><strong>第二招：一套昂贵实机夹具裂变「1 标准 + N 受控规则变体簇」（借鉴</strong> <code>Spec2Game-Bench</code>）。像 <code>Technic</code> 电网工坊或 <code>Advtrains</code> 铁路联锁的实机自动测试夹具既然已经花大力气打磨成熟了，完全没必要只测一道题：参数化修改公开说明书里的电压衰减系数、过载保护阈值、双向列车抢占优先级或配方守恒比例，同一套测试驱动代码只需替换配置常量，就能零成本派生出 5～8 道彻底免疫预训练背板的同族新题。</li>
+</ul>
+<h3 id="s17-53-启发三用1-条真人入口主链--n-个预置存档并发注入给评测提速并给答题-agent-装上秒级眼睛">5.3 启发三：用「1 条真人入口主链 + N 个预置存档并发注入」给评测提速，并给答题 Agent 装上秒级眼睛</h3>
+<p>最后，在评测与答题的执行效率上也有两处立竿见影的改进空间：</p>
+<ul>
+<li><strong>评测侧引入状态注入</strong>（借鉴 <code>GameGen-Verifier</code>）：我们保留 <strong>1 条</strong> 从真实玩家合成物品、拿在手里右键摆放到地面起步的冒烟主路径（守住早期活塞题发现的「玩家入口可用」底线）；而对于所有耗时漫长的深层边界——满箱溢出掉落、多机抢电、半程杀进程冷重启、CDDA 跨多轮法术维护扣费——不再串行慢跑铺垫，而是全部拆成<strong>互相独立的预构造原生存档注入短测单元</strong>并发执行，把整题验证时间压进两三分钟，且哪个单元挂掉就能直接输出精确的需求归因。</li>
+<li><strong>答题侧补齐脱离重引擎的秒级多视角预览</strong>（借鉴 <code>VIGA</code> 与 <code>GameDevBench</code> MCP）：此前 <code>v3.1</code> 盲测中 8 道题有 6 道模型一次都没调过 Blender，很大程度是因为每次改完模型都要重新打包进整个游戏世界看效果，反馈链路太重。只要在答题容器的 <code>runtime_bridge</code> 里加一条 2 秒钟出图的轻量命令（用无头 Blender 直接把当前 <code>.obj</code> / <code>.blend</code> 渲出前、后、左、右、顶、斜视六宫格，自动和 <code>/app/input/</code> 里的原版参考图左右拼成一张对比 PNG 喂回给多模态模型），就能逼着 Agent 跑通「改脚本 → 看六视图找穿模/反面 → 再改坐标」的闭环，真正把多模态基座的视觉潜力释放出来。</li>
+</ul>
+<hr />
+<h2 id="s18-结语">结语</h2>
+<p>回过头看，从「写一个排序函数」到「造一个能运行、能交互、重启不丢状态的虚拟世界与游戏模组」，代码智能正在经历它自己的中场转换。当一维文本的通用配方把传统算法与纯文本仓库基准刷向饱和时，真正决定下半场上限的，已经不再是谁调出了更花哨的策略梯度公式，而是<strong>谁能率先打破单帧静态截图与孤立函数单测的惯性，定义出连接符号逻辑、三维物理空间与长时序因果交互的新任务与新验证器</strong>。当我们把评测的尺子造准了，训练与模型先验的进化自然会顺着这把尺子发生。</p>
+<details class="qa-drawer" open>
+<summary>附：前期核心调研追问与结论速查归档（Q&amp;A Summary）</summary>
+
+- **问 1：当前 Visual Coding 基准的题面与 Verifier 主流实现方案是什么？**
+  题面端已从早期的「单张目标截图逆向」演进为「冻结结构化需求契约 + 仓库/教程局部挖空 + 原子破坏修复 + 题面与测试双向防歧义审计」；Verifier 端则从「像素/点云参考比对」与「单通道 VLM 印象打分」升级为「引擎场景图几何直测 + 受控时钟/稠密光流物理测量 + 去标签盲测二值问答（CodeVQA）+ 白盒运行期状态注入并发测试」。
+- **问 2：原始资产有哪些种类与组织形式？怎么从中挖出可被自动验证的题目？**
+  按底层运行机制分为纯符号矢量/着色器代码、声明式 DOM 视图树、Blender/CAD「静态底座 + 程序化脚本」、Three.js 运行期动态场景图，以及游戏引擎多模态复合仓库五类。除「剥离源码从零构建（需配语义槽位清单或轻量部件映射器保可测）」外，工程性价比最高的是「保留 90% 底座局部挖空」与「向完好黄金资产注入可逆缺陷 / 派生 1+9 规则变体簇」，后两者可直接拿原资产作隐藏真值实现毫秒级零歧义判分并兼测背景零误伤率。
+- **问 3：Agent 成为视觉与游戏编码专家需要哪些核心能力？当前卡在哪，为什么没学会？**
+  核心依赖跨模态原始资产解析（如未切分精灵表选帧）、三维坐标系与局部枢轴装配、时序状态机与异常打断、多文件全局渲染挂载与跨进程持久化、以及低延迟视觉自检闭环五大能力。当前模型静态表层分高（80%–91%）但三维、时序与引擎开发跳水（20%–53%），根源在于中期训练缺乏「代码差集 ↔ 三维法线/深度/运动渲染」交错轨迹、后训练纯代码单测对零报错几何瑕疵与死代码奖励失明，以及函数级刷题先验缺乏背景不变性约束。
+- **问 4：怎么定义「好资产」？在各类验证手段均受限的条件下，可接受的验证方案长什么样？**
+  好资产需同时满足净室重编稳定、几何无穿模/漏背面/闪烁、去文字标签后多视角语义清晰、后台物理状态与屏幕像素运动严格因果同步、局部编辑不误伤无关背景及跨进程重启守恒。可接受方案绝不单信源码或单信 VLM，而是以净室构建为门槛、用参数/存档状态注入与场景图光流程序硬测扛起 75%–85% 权重、用隐藏标签洗牌客观问答补齐 15%–20% 语义分值，并在冻结前强制通过含「删渲染挂载留死代码」在内的五组正负例变异校准。
+
+</details>
+<hr />
+<h2 id="s19-参考文献与前沿技术博客编年索引2018--202611">参考文献与前沿技术博客编年索引（2018 – 2026.11）</h2>
+<p>以下完整收录本文梳理的 <strong>10 篇前沿工程博客</strong> 与 <strong>62 篇学术基准及方法论文</strong>，均标注首次公开或正式发表年月（<code>[YYYY-MM]</code>），可通过左侧边栏搜索框按年份、引擎或关键词实时过滤。</p>
+<h3 id="s20-a-范式讨论与能力边界一线技术博客10-篇按时间倒序">A. 范式讨论与能力边界一线技术博客（10 篇，按时间倒序）</h3>
+<ol>
+<li><code>[2026-10-27]</code> Sichi Chen (Folkbench). <a href="https://dev.to/sichi_chen_a4a87b20aa2dbf/how-do-you-score-a-pelican-on-a-bicycle-turning-a-viral-svg-test-into-an-evaluation-you-can-audit-2d31" target="_blank" rel="noopener">How do you score a pelican on a bicycle? Turning a viral SVG test into an evaluation you can audit</a> — 探讨如何将开放视觉生成拆解为受约束几何关系检查、对视觉裁判先行考核及动画持续接触检验。</li>
+<li><code>[2026-10-08]</code> Frank Liu et al. (General Context Labs &amp; Instaplay). <a href="https://3jsbench.com/methodology" target="_blank" rel="noopener">3JSBench Methodology &amp; Failure Analysis</a>（初版 <code>[2026-09-03]</code>）— 基于四万余款小游戏经验统计 3,000 次 Three.js 建模尝试中穿模（20%）、背面透明（19%）、闪烁（17%）与断连（16%）的真实分布。</li>
+<li><code>[2026-10-07]</code> Krish Bakshi. <a href="https://krishbakshi.com/projects/worldbench" target="_blank" rel="noopener">WorldBench: Can a language model build a living 3D world from a single description?</a> — 记录 30 个模型单文件构建十生物群系 Three.js 世界及源码审查与画面实测高达 32% 的分歧来源。</li>
+<li><code>[2026-08-14]</code> Simon Willison. <a href="https://feeds.simonwillison.net/tags/pelican-riding-a-bicycle/" target="_blank" rel="noopener">Pelican Riding a Bicycle Benchmark Archive (2024.10 – 2026.08)</a>（起点为 <code>[2024-10-25]</code> <a href="https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/" target="_blank" rel="noopener">Pelicans on a bicycle</a> 与 <code>[2025-06-06]</code> <a href="https://simonwillison.net/2025/Jun/6/six-months-in-llms/" target="_blank" rel="noopener">Six months in LLMs</a>）— 历时两年的纯代码 SVG 空间分解追踪与评测渲染器自身故障复盘。</li>
+<li><code>[2026-05]</code> Wayne Chi et al. (CMU). <a href="https://waynechi.com/gamedevbench/" target="_blank" rel="noopener">GameDevBench Overview Blog</a> — 直观拆解 Godot 4 引擎中纯玩法脚本（51.4%）与 2D/3D 视觉及 UI 任务（32%–38%）的解决率鸿沟。</li>
+<li><code>[2026-04-14]</code> ShiftArray. <a href="https://shiftarrayhq.com/blog/kimi-k25-vs-glm5-vs-claude-code-2026/" target="_blank" rel="noopener">Kimi K2.5 vs GLM-5 vs Claude Code in 2026</a> — 对比原生图文混合预训练前端模型与长程系统工程 Agent 的能力边界。</li>
+<li><code>[2026]</code> Andrej Karpathy（综述整理见 <a href="https://explainx.ai/blog/karpathy-opus-5-lord-of-the-rings-threejs-world-2026" target="_blank" rel="noopener">explainx.ai</a>）. <em>Opus 5 Three.js World &amp; Multimodal Gameplay Audit Postmortem</em> — 指出缺少原生视频流感知与交互试玩自检是虚拟世界生成留下大量运动瑕疵的核心原因。</li>
+<li><code>[2026]</code> Yohsuke. <a href="https://zenn.dev/yohsuke_zw/articles/0170dca5dcdae3?locale=en" target="_blank" rel="noopener">When I Built a Browser Game with 11 AI Agents, Most Bugs Were &quot;Written but Not Running&quot;</a> — 一线实证多 Agent 并行开发游戏时所有严重故障均源于「代码已写且零报错编译，但未挂载至渲染屏幕」。</li>
+<li><code>[2025-11-11]</code> Simon Willison &amp; Robert Glaser. <a href="https://simonwillison.net/2025/Nov/11/agentic-pelican-on-a-bicycle/" target="_blank" rel="noopener">Agentic Pelican on a Bicycle</a>（另参 Joe Faith <code>[2025]</code> <a href="https://engineeringtruth.substack.com/p/pelicans-on-bicycles-and-other-hard" target="_blank" rel="noopener">Pelicans on Bicycles and Other Hard Problems</a>）— 揭示多轮看图重试下的首轮构图固化现象与机械连接拓扑缺失。</li>
+<li><code>[2025-11-01]</code> Ondřej Vlášek (<code>0x0ndra</code>). <a href="https://ondra-vlasek.cz/blog/vibecoding-threejs-webgl-2025.html" target="_blank" rel="noopener">Vibecoding Three.js in 2025: when AI hit the wall of 3D</a>（另参姚顺雨 <code>[2025-04-10]</code> <a href="https://ysymyth.github.io/The-Second-Half/" target="_blank" rel="noopener">The Second Half</a> 与 LMArena <code>[2025-03-10]</code> <a href="https://arena.ai/blog/webdev-arena" target="_blank" rel="noopener">WebDev Arena Blog</a>）— 记录三维坐标系惯例、四元数乘序与 GLSL 着色器的静默空间错误及评测下半场范式转移。</li>
+</ol>
+<h3 id="s21-b-学术基准与方法论文分类索引62-篇标注公开--发表期">B. 学术基准与方法论文分类索引（62 篇，标注公开 / 发表期）</h3>
+<h4 id="s22-1-二维静态与多框架前端界面编码16-篇">1. 二维静态与多框架前端界面编码（16 篇）</h4>
+<ol>
+<li><code>[2017-05 / EICS 2018]</code> Beltramelli. <em>pix2code: Generating Code from a Graphical User Interface Screenshot</em>.</li>
+<li><code>[2024-03]</code> Laurençon et al. <em>Unlocking the conversion of Web Screenshots into HTML Code with the WebSight Dataset</em>.</li>
+<li><code>[2024-03 / NAACL 2025]</code> Si et al. <a href="https://aclanthology.org/2025.naacl-long.199.pdf" target="_blank" rel="noopener">Design2Code: Benchmarking Multimodal Code Generation for Automated Front-End Engineering</a>（484 个真实网页截图逆向与视觉块对齐度量）。</li>
+<li><code>[2024-04 / CVPR 2025]</code> Gui et al. <a href="https://webcode2m.github.io/" target="_blank" rel="noopener">WebCode2M: A Real-World Dataset for Code Generation from Webpage Designs</a>（256 万真实网页三元组与 <code>TreeBLEU</code> 结构指标）。</li>
+<li><code>[2024-06 / NeurIPS 2024]</code> Yun et al. <em>Web2Code: A Large-scale Webpage-to-Code Dataset and Evaluation Framework for Multimodal LLMs</em>.</li>
+<li><code>[2024-10 / NAACL 2025]</code> Li, Zhang &amp; Yang. <em>Sketch2Code: Evaluating Vision-Language Models for Interactive Web Design Prototyping</em>.</li>
+<li><code>[2025-03]</code> Ge et al. <a href="https://arxiv.org/html/2503.01619" target="_blank" rel="noopener">Flame-React-Eval: Advancing vision-language models in front-end development via data synthesis</a>（80 例现代声明式 React 组件基准）。</li>
+<li><code>[2025-05 / ACL Findings 2025]</code> Guo et al. <em>IW-Bench: Evaluating Image-to-Web Generation via DOM Element and Layout Subsequence Accuracy</em>（1,200 例）。</li>
+<li><code>[2025-05 / ACL Findings 2025]</code> Lin et al. <em>WebUIBench: A Comprehensive Benchmark for Evaluating MLLMs in WebUI-to-Code</em>（2.18 万细粒度技能 QA）。</li>
+<li><code>[2025-06]</code> Xiao et al. <a href="https://arxiv.org/abs/2506.06251" target="_blank" rel="noopener">DesignBench: A Comprehensive Benchmark for MLLM-based Front-end Code Generation</a>（跨 React/Vue/Angular 的 900 例生成、编辑与缺陷修复）。</li>
+<li><code>[2025-06]</code> Sun et al. <em>FullFront: Benchmarking the Full Front-End Workflow from Conceptualization to Implementation</em>（2,250 题）。</li>
+<li><code>[2025-08 / EMNLP 2025]</code> Awal et al. <em>WebMMU: A Multilingual Benchmark for Website Understanding, Code Editing, and Mockup-to-Code</em>（4,392 例）。</li>
+<li><code>[2025]</code> Lai et al. <em>WebRenderBench: Layout-and-Style Consistency Scoring as RL Reward for Webpage Generation</em>.</li>
+<li><code>[2025]</code> Wu et al. <em>FronTalk: Benchmarking Conversational Front-End Development and Feature Forgetting</em>.</li>
+<li><code>[2026]</code> Xu et al. <em>1D-Bench: Multi-Round Component-Level UI Refinement from Imperfect Intermediate Representations</em>.</li>
+<li><code>[2026-11]</code> <a href="https://arxiv.org/html/2611.18575" target="_blank" rel="noopener">A Survey of Image-to-Code Generation for Software Engineering</a>（arXiv:2611.18575，前端图像转代码系统综述）。</li>
+</ol>
+<h4 id="s22-2-符号矢量科研图表与结构化版式程序14-篇">2. 符号矢量、科研图表与结构化版式程序（14 篇）</h4>
+<ol>
+<li><code>[2024-03 / ACL 2024]</code> Yang et al. <em>MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization</em>（含 <code>MatPlotBench</code> 100 题）。</li>
+<li><code>[2024-05]</code> Wu et al. <a href="https://arxiv.org/html/2405.07990" target="_blank" rel="noopener">Plot2Code: A Comprehensive Benchmark for Evaluating MLLMs in Code Generation from Scientific Plots</a>（132 幅 Matplotlib 图表逆向）。</li>
+<li><code>[2024-05 / NeurIPS 2024]</code> Belouadi et al. <a href="https://github.com/potamides/DeTikZify" target="_blank" rel="noopener">DeTikZify: Synthesizing Graphics Programs for Scientific Figures and Sketches with TikZ</a>（配合编译反馈 MCTS 精炼）。</li>
+<li><code>[2024-06 / ICLR 2025]</code> Shi et al. <a href="https://arxiv.org/html/2406.09961v1" target="_blank" rel="noopener">ChartMimic: Evaluating LMM&#x27;s Cross-Modal Reasoning Capability via Chart-to-Code Generation</a>（1,000 组论文图表与底层绘图对象拦截评测）。</li>
+<li><code>[2024-11 / CVPR 2025]</code> Wei et al. <a href="https://diagramagent.github.io/" target="_blank" rel="noopener">DiagramGenBenchmark &amp; DiagramAgent: From Words to Structured Visuals</a>（8 类框图代码生成、编译器自检与编辑）。</li>
+<li><code>[2024-12]</code> Galimzyanov et al. <a href="https://github.com/jetbrains-research/pandasplotbench" target="_blank" rel="noopener">PandasPlotBench: Data Visualization Code Generation from DataFrame Descriptions</a>（arXiv:2412.02764）。</li>
+<li><code>[2024-12 / CVPR 2025]</code> Rodriguez et al. <a href="https://starvector.github.io/starvector/" target="_blank" rel="noopener">StarVector &amp; SVG-Bench: Generating Scalable Vector Graphics Code from Images and Text</a>（10 个子数据集统一 SVG 评测）。</li>
+<li><code>[2025-01 / CVPR 2025]</code> Ge et al. <a href="https://openaccess.thecvf.com/content/CVPR2025/papers/Ge_AutoPresent_Designing_Structured_Visuals_from_Scratch_CVPR_2025_paper.pdf" target="_blank" rel="noopener">AutoPresent &amp; SLIDESBENCH: Designing Structured Visuals from Scratch</a>（585 例 <code>python-pptx</code> 程序生成与有参/无参评估）。</li>
+<li><code>[2025-01]</code> Zheng et al. <em>PPTAgent: Generating and Evaluating Presentations Beyond Text-to-Slides</em>（arXiv:2501.03936）。</li>
+<li><code>[2025-03 / ICCV 2025]</code> Belouadi et al. <em>TikZero: Zero-Shot Text-Guided Graphics Program Synthesis</em>（及后续自反馈强化学习 v2.5）。</li>
+<li><code>[2025-04 / CVPR 2025]</code> Yang et al. <em>OmniSVG</em> &amp; Wu et al. <em>Chat2SVG: Vector Graphics Generation with LLMs and Image Diffusion</em>.</li>
+<li><code>[2025-06]</code> <a href="https://arxiv.org/html/2506.03139" target="_blank" rel="noopener">SVGenius: Benchmarking LLMs in SVG Understanding, Editing and Generation</a>（arXiv:2506.03139，2,377 条分层查询）。</li>
+<li><code>[2025-10]</code> <a href="https://arxiv.org/html/2510.23642v2" target="_blank" rel="noopener">VisCoder2 &amp; VisPlotBench: Building Multi-Language Visualization Coding Agents</a>（arXiv:2510.23642，12 语言可视化执行—渲染—三轮自修复评测；同向含 <code>[2025]</code> <em>ChartEdit</em> 与 <em>PlotCraft</em>）。</li>
+<li><code>[2025-11]</code> <a href="https://arxiv.org/abs/2511.02778" target="_blank" rel="noopener">VCode: A Multimodal Coding Benchmark with SVG as Symbolic Visual Representation</a>（arXiv:2511.02778，提出基于下游视觉问答的 <code>CodeVQA</code> 验证协议）。</li>
+</ol>
+<h4 id="s22-3-时序动画交互视频逆向与动态-web-应用12-篇">3. 时序动画、交互视频逆向与动态 Web 应用（12 篇）</h4>
+<ol>
+<li><code>[2024-08]</code> Wan et al. <em>MRWeb: An Exploration of Generating Multi-Page Resource-Aware Web Code from UI Designs</em>.</li>
+<li><code>[2024-11 / ASE 2025]</code> Xiao et al. <em>Interaction2Code: Benchmarking MLLM-based Interactive Webpage Code Generation from Interactive Prototyping</em>（374 项交互原型与 WebDriver 检测）。</li>
+<li><code>[2025-05 / NeurIPS 2025]</code> Lu et al. <a href="https://proceedings.neurips.cc/paper_files/paper/2025/file/6841eed8bb6a2ec49e49235c8115efee-Paper-Datasets_and_Benchmarks_Track.pdf" target="_blank" rel="noopener">WebGen-Bench: Evaluating LLMs on Generating Interactive and Functional Websites from Scratch</a>（647 条 GUI 代理功能测试）。</li>
+<li><code>[2025-06]</code> Zhu et al. <a href="https://arxiv.org/html/2506.13832" target="_blank" rel="noopener">FrontendBench: Evaluating LLMs on Front-End Development via Automatic Sandbox Evaluation</a>（arXiv:2506.13832，人类一致率 90.54%）。</li>
+<li><code>[2025-07 / EMNLP 2026]</code> Tencent Hunyuan Team. <a href="https://aclanthology.org/2026.emnlp-main.2229/" target="_blank" rel="noopener">ArtifactsBench: Bridging the Visual-Interactive Gap in LLM Code Generation Evaluation</a>（arXiv:2507.04952，1,825 题三阶段截图 + 逐题清单裁判）。</li>
+<li><code>[2025-09]</code> <a href="https://arxiv.org/abs/2509.24709" target="_blank" rel="noopener">IWR-Bench: Can LVLMs Reconstruct Interactive Webpage from a User Interaction Video?</a>（arXiv:2509.24709，113 个操作视频配静态资产包重建）。</li>
+<li><code>[2025-10]</code> <a href="https://arxiv.org/abs/2510.09724" target="_blank" rel="noopener">InteractScience: Programmatic and Visually-Grounded Evaluation of Interactive Scientific Demonstrations</a>（arXiv:2510.09724，确定性单测 PFT + 快照锚定 VQT）。</li>
+<li><code>[2026-01]</code> Liu et al. <em>WebCoderBench: Benchmarking Web Application Generation with Comprehensive and Interpretable Metrics</em>（arXiv:2601.02430；同向含 <em>WebCompass</em> <code>[2026]</code>）。</li>
+<li><code>[2026-03 &amp; 2026-04]</code> <a href="https://arxiv.org/html/2603.13251" target="_blank" rel="noopener">ManiBench</a>（arXiv:2603.13251）与 <a href="https://arxiv.org/abs/2604.18364" target="_blank" rel="noopener">ManimTrainer / ManimAgent</a>（arXiv:2604.18364）— Manim 数学动画视觉逻辑漂移评测与渲染器在环 GRPO 训练。</li>
+<li><code>[2026-04 / ICML 2026 Spotlight]</code> He et al. <a href="https://proceedings.mlr.press/v306/he26n.html" target="_blank" rel="noopener">Vision2Web: A Hierarchical Benchmark for Visual Website Development with Agent Verification</a>（三级全栈网站与 <code>playwright-cli</code> 工作流核验）。</li>
+<li><code>[2026-06 &amp; 2026-08]</code> Ji et al. <a href="https://arxiv.org/html/2606.28593" target="_blank" rel="noopener">Animation2Code: Evaluating Temporal Visual Reasoning in Video-to-Code Generation</a>（arXiv:2606.28593，1,069 段网页动画解耦外观与时序轨迹）及 <a href="https://vista-benchmark.org/" target="_blank" rel="noopener">VISTA Benchmark</a>（Figma 布局树定位 × 内容交互变化评分）。</li>
+<li><code>[2026-10]</code> Tsai et al. <a href="https://arxiv.org/html/2610.02617" target="_blank" rel="noopener">WebUIProof: Benchmarking WebUI Code Generators with UI-Agent Execution Harness &amp; VisRL</a>（arXiv:2610.02617，含 70 个 Three.js 仿真的 3,000 条可执行交互测试与多信号 PPO）。</li>
+</ol>
+<h4 id="s22-4-三维参数化几何着色器与实时-webgl-世界10-篇">4. 三维参数化几何、着色器与实时 WebGL 世界（10 篇）</h4>
+<ol>
+<li><code>[2024-03 / ICML 2024]</code> Hu et al. <a href="https://mlsanity.com/paper/2403.01248/" target="_blank" rel="noopener">SceneCraft: An LLM Agent for Synthesizing 3D Scene as Blender Code</a>（arXiv:2403.01248；同系含 Sun et al. <code>[3DV 2025]</code> <em>3D-GPT</em>）。</li>
+<li><code>[2024-07 / ECCV 2024]</code> Huang, Yang &amp; Guibas. <em>BlenderAlchemy: Editing 3D Graphics with Vision-Language Models</em>.</li>
+<li><code>[2024-10 / ICLR 2025]</code> Alrashedy et al. <a href="https://arxiv.org/html/2410.05340" target="_blank" rel="noopener">Generating CAD Code with Vision-Language Models for 3D Designs (CADPrompt &amp; CADCodeVerify)</a>（ICP 对齐点云距离与 IoGT）。</li>
+<li><code>[2025-02 / CVPR 2025]</code> Gu et al. <a href="https://blendergym.github.io/" target="_blank" rel="noopener">BlenderGym: Benchmarking Foundational Model Systems for Graphics Editing</a>（245 个 Start-Goal Blender 场景与验证器测试时扩展律）。</li>
+<li><code>[2025-03 &amp; CVPR 2025]</code> Sun et al. <em>LayoutVLM: Differentiable Optimization of 3D Layout via VLMs</em> &amp; <em>SceneEval: Semantic Coherence in 3D Indoor Scene Synthesis</em>（arXiv:2503.14756）。</li>
+<li><code>[2025-05 / LLM4Code 2025]</code> <a href="https://dl.acm.org/doi/abs/10.1109/LLM4Code66737.2025.00017" target="_blank" rel="noopener">ShaderMatch / ShaderEval: Evaluating Language Models for Computer Graphics Code Completion</a>（467 个 Shadertoy GLSL 函数与多输入帧语义克隆分级）。</li>
+<li><code>[2025-05]</code> <a href="https://arxiv.org/html/2505.19713" target="_blank" rel="noopener">CAD-Coder: Text-to-CAD Generation with Chain-of-Thought and Geometric Reward</a>（arXiv:2505.19713，11 万 <code>CadQuery</code> 模型与 Chamfer 奖励 GRPO）。</li>
+<li><code>[2026-01]</code> Yin et al. <a href="https://arxiv.org/pdf/2601.11109" target="_blank" rel="noopener">Vision-as-Inverse-Graphics Agent (VIGA) &amp; BlenderBench</a>（arXiv:2601.11109，相机校准与多步遮挡记忆闭环）。</li>
+<li><code>[2026-02]</code> <a href="https://arxiv.org/html/2602.13294v2" target="_blank" rel="noopener">VisPhyWorld &amp; VisPhyBench: Probing Physical Reasoning via Code-Driven Video Reconstruction</a>（arXiv:2602.13294，209 个物理场景与 RAFT 光流动力学评估）。</li>
+<li><code>[2026-09 &amp; 2026-10]</code> Liu et al. <a href="https://3jsbench.com/" target="_blank" rel="noopener">3JSBench</a>（696 项原生 Three.js 几何与渲染硬检查）与 Bakshi <a href="https://arxiv.org/html/2610.10622" target="_blank" rel="noopener">WorldBench: Evaluating LLMs on Three.js Voxel World Generation</a>（arXiv:2610.10622，时钟补丁、盲认导航与源码逐行核验双通道证伪）。</li>
+</ol>
+<h4 id="s22-5-多模态软件工程仓库与可玩游戏--原生引擎开发10-篇">5. 多模态软件工程仓库与可玩游戏 / 原生引擎开发（10 篇）</h4>
+<ol>
+<li><code>[2024-04 / EMNLP Findings 2024]</code> Li et al. <a href="https://aclanthology.org/2024.findings-emnlp.42/" target="_blank" rel="noopener">MMCode: Benchmarking MLLMs for Code Generation with Visually Rich Programming Problems</a>（3,548 道含图算法题；全景综述另见 <code>[2026-06]</code> <a href="https://arxiv.org/html/2606.15932" target="_blank" rel="noopener">Beyond NL2Code, arXiv:2606.15932</a>）。</li>
+<li><code>[2024-10 / ICLR 2025 &amp; v2 2026-09]</code> Yang et al. <a href="https://www.swebench.com/multimodal" target="_blank" rel="noopener">SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?</a>（arXiv:2410.03859，480 个可复现前端/图表/地图视觉 PR）。</li>
+<li><code>[2024-05]</code> Nasir et al. <em>Word2World: Generating Stories and Worlds through Large Language Models</em>（含基于 <code>A*</code> 寻路的可玩性检查）。</li>
+<li><code>[2026-04]</code> Jiang et al. <a href="https://arxiv.org/html/2604.18394" target="_blank" rel="noopener">OpenGame &amp; OpenGame-Bench: Open Agentic Coding for Games</a>（arXiv:2604.18394，150 款 Phaser 3 游戏三轴评分与演化模板库）。</li>
+<li><code>[2026-05]</code> Jia et al. <a href="https://arxiv.org/abs/2605.07442" target="_blank" rel="noopener">GameGen-Verifier: Parallel Keypoint-Based Verification for LLM-Generated Games via Runtime State Injection</a>（arXiv:2605.07442，霍尔三元组关键点与白盒运行期状态注入）。</li>
+<li><code>[2026-05]</code> Zhang et al. <a href="https://arxiv.org/html/2605.17637v2" target="_blank" rel="noopener">WebGameBench: Requirement-to-Application Evaluation for Coding Agents via Browser-Native Games</a>（arXiv:2605.17637，111 款网页游戏冻结规格与 B-S-T 原子功能点）。</li>
+<li><code>[2026-05 / ICML 2026 Workshop]</code> Chi et al. <a href="https://genaicreativity.org/icml2026/files/57/57_paper.pdf" target="_blank" rel="noopener">GameDevBench: Evaluating Agentic Capabilities Through Game Development</a>（333 道源自 Godot 4 教程的多模态工程任务与原生 GDScript 单测）。</li>
+<li><code>[2026-06]</code> Luo et al. <a href="https://arxiv.org/abs/2606.17861" target="_blank" rel="noopener">GameCraft-Bench: Can Agents Build Playable Games End-to-End in a Real Game Engine?</a>（arXiv:2606.17861，140 个端到端 Godot 游戏与可重放交互轨迹验证）。</li>
+<li><code>[2026-09]</code> Ye et al. <a href="https://arxiv.org/abs/2609.36777" target="_blank" rel="noopener">Code4Scene: Benchmarking Coding Agents for Constructing and Editing 3D Scenes</a>（arXiv:2609.36777，190 个 Unreal Engine 5 关卡构建、原子破坏修复 <code>Repair F1</code> 与具身导航 <code>EUS</code>）。</li>
+<li><code>[2026-10]</code> <a href="https://arxiv.org/html/2610.04253v1" target="_blank" rel="noopener">Spec2Game: Can LLMs Generate Complete Playable Games from Detailed Specifications?</a>（arXiv:2610.04253，150 个 PyGame 主干与受控规则变体；同向含 <code>[2026]</code> <a href="https://v-gamegym.github.io/index.html" target="_blank" rel="noopener">V-GameGym</a> 2,219 例 PyGame 多维评测与 <a href="https://kwen-chen.github.io/GameXpert-Bench/" target="_blank" rel="noopener">GameXpert-Bench</a> 缺陷注入修复基准）。</li>
+</ol>
+    </article>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const el = document.documentElement;
+      el.setAttribute("data-theme", el.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    }
+    function filterBib(q) {
+      const kw = q.trim().toLowerCase();
+      document.querySelectorAll("#proseRoot ol li").forEach((li) => {
+        if (!kw || li.textContent.toLowerCase().includes(kw)) li.classList.remove("bib-hidden");
+        else li.classList.add("bib-hidden");
+      });
+    }
+    const links = Array.from(document.querySelectorAll(".toc-link"));
+    const heads = links.map((a) => document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+    window.addEventListener("scroll", () => {
+      let cur = heads[0];
+      for (const h of heads) {
+        if (h.getBoundingClientRect().top <= 110) cur = h;
+      }
+      links.forEach((a) => a.classList.toggle("active", cur && a.getAttribute("href") === "#" + cur.id));
+    }, { passive: true });
+  </script>
+  <script defer src="widgets.js"></script>
+</body>
+</html>

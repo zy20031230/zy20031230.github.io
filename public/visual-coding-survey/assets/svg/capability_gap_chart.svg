@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 365" width="880" height="365" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Inter', sans-serif">
+  <rect width="880" height="365" rx="8" fill="#ffffff"/>
+  <text x="24" y="28" font-size="15" font-weight="700" fill="#0f172a">2025–2026 前沿大模型在 Visual Coding 上的「表层高分 vs. 深层跳水」剪刀差</text>
+  <text x="24" y="47" font-size="12" fill="#64748b">每一行对比同一批模型在「静态表层 / 局部代码指标（蓝点）」与「三维引擎 / 时序轨迹 / 完整规则指标（红点）」上的实测落差</text>
+
+  <circle cx="535" cy="26" r="5.5" fill="#2563eb"/>
+  <text x="546" y="30" font-size="11.5" font-weight="600" fill="#1e40af">静态外观 / 元素 / 源码字面分</text>
+  <circle cx="715" cy="26" r="5.5" fill="#dc2626"/>
+  <text x="726" y="30" font-size="11.5" font-weight="600" fill="#b91c1c">三维引擎 / 时序对齐 / 完整规则分</text>
+
+  <g stroke="#e2e8f0" stroke-width="1">
+    <line x1="290" y1="68" x2="290" y2="322"/>
+    <line x1="398" y1="68" x2="398" y2="322"/>
+    <line x1="506" y1="68" x2="506" y2="322"/>
+    <line x1="614" y1="68" x2="614" y2="322"/>
+    <line x1="722" y1="68" x2="722" y2="322"/>
+    <line x1="830" y1="68" x2="830" y2="322"/>
+  </g>
+  <g font-size="11" fill="#64748b" text-anchor="middle">
+    <text x="290" y="342">0%</text>
+    <text x="398" y="342">20%</text>
+    <text x="506" y="342">40%</text>
+    <text x="614" y="342">60%</text>
+    <text x="722" y="342">80%</text>
+    <text x="830" y="342">100%</text>
+  </g>
+
+  <g transform="translate(0,88)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">跨栈迁移：单页网页 vs. 游戏引擎</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">Kimi K2.5：Design2Code → Godot GameDevBench</text>
+    <line x1="401.8" y1="6" x2="783.0" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="783.0" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="793" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">91.3%</text>
+    <circle cx="401.8" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="310" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">20.7% (Godot)</text>
+  </g>
+
+  <g transform="translate(0,130)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">视频逆向：静态长相 vs. 运动轨迹</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">Animation2Code (2026.06 · 1,069 段网页动画)</text>
+    <line x1="462.8" y1="6" x2="743.6" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="743.6" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="754" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">84.0% (外观)</text>
+    <circle cx="462.8" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="372" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">32.0% (时序)</text>
+  </g>
+
+  <g transform="translate(0,172)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">PyGame 工程：画元素 vs. 动态反馈</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">Spec2Game-Bench (2026.10 · 3,330 个项目)</text>
+    <line x1="463.3" y1="6" x2="726.3" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="726.3" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="737" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">80.8 (静态元素)</text>
+    <circle cx="463.3" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="366" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">32.1 (动态反馈)</text>
+  </g>
+
+  <g transform="translate(0,214)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">网页游戏：最低可玩 vs. 规格全达标</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">WebGameBench (2026.05 · 111 款原生游戏)</text>
+    <line x1="399.1" y1="6" x2="705.3" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="705.3" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="716" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">76.9% (Usable)</text>
+    <circle cx="399.1" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="296" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">20.2% (Excellent)</text>
+  </g>
+
+  <g transform="translate(0,256)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">接线断层：源码里写了 vs. 画面真出现</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">WorldBench (2026.10 · Three.js 十群系世界)</text>
+    <line x1="576.2" y1="6" x2="716.6" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="716.6" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="727" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">79.0% (读源码)</text>
+    <circle cx="576.2" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="482" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">53.0% (真上屏)</text>
+  </g>
+
+  <g transform="translate(0,298)">
+    <text x="24" y="4" font-size="12.5" font-weight="700" fill="#0f172a">操作视频逆向：视觉长相 vs. 交互功能</text>
+    <text x="24" y="19" font-size="10.8" fill="#64748b">IWR-Bench (2025.09 · 113 个真实交互视频)</text>
+    <line x1="421.8" y1="6" x2="637.2" y2="6" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="637.2" cy="6" r="6.5" fill="#2563eb"/>
+    <text x="648" y="10" font-size="11.2" font-weight="700" fill="#1d4ed8">64.3% (视觉分)</text>
+    <circle cx="421.8" cy="6" r="6.5" fill="#dc2626"/>
+    <text x="332" y="10" font-size="11.2" font-weight="700" fill="#b91c1c">24.4% (功能分)</text>
+  </g>
+</svg>

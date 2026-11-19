@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 375" width="880" height="375" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Inter', sans-serif">
+  <rect width="880" height="375" rx="8" fill="#ffffff"/>
+  <text x="22" y="28" font-size="15" font-weight="700" fill="#0f172a">ModBench 造题与全自动验证器（Verifier）双轨工程升级蓝图</text>
+  <text x="22" y="47" font-size="12" fill="#64748b">基于 130 个真实开源游戏 Mod 母库，分轨解决「复杂整包大题全自动收口」与「高频 RL 可验证短题规模化生产」</text>
+
+  <g transform="translate(18,62)">
+    <rect width="844" height="142" rx="7" fill="#f8fafc" stroke="#93c5fd" stroke-width="1.5"/>
+    <rect x="14" y="12" width="192" height="24" rx="4" fill="#1d4ed8"/>
+    <text x="24" y="28" font-size="11.5" font-weight="700" fill="#ffffff">轨道 A：旗舰级子系统从零构建</text>
+    <text x="218" y="28" font-size="11.5" font-weight="600" fill="#1e3a8a">目标：解除剩余 6 道大题（38 块破碎机、齿轮冲压、逐发霰弹枪）的 native_review_required 门控</text>
+
+    <rect x="14" y="46" width="192" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="24" y="64" font-size="11" font-weight="700" fill="#0f172a">1. 契约下沉至活动子部件</text>
+    <text x="24" y="82" font-size="10.2" fill="#334155">• task-manifest 增加可动子网格</text>
+    <text x="24" y="96" font-size="10.2" fill="#334155">  槽位声明 (如 drum_left_mesh)</text>
+    <text x="24" y="112" font-size="10.2" fill="#1d4ed8">• 冻结前跑双向防歧义审计 Agent</text>
+    <text x="212" y="92" font-size="16" fill="#475569">→</text>
+
+    <rect x="230" y="46" width="196" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="240" y="64" font-size="11" font-weight="700" fill="#0f172a">2. 机制层：1 主链 + N 存档注入</text>
+    <text x="240" y="82" font-size="10.2" fill="#334155">• 保留 1 条真人鼠标摆放冒烟链</text>
+    <text x="240" y="96" font-size="10.2" fill="#334155">• 超载/打断/多轮维护直接注入</text>
+    <text x="240" y="112" font-size="10.2" fill="#15803d">  预置原生存档并发跑 30s 短测</text>
+    <text x="432" y="92" font-size="16" fill="#475569">→</text>
+
+    <rect x="450" y="46" width="202" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="460" y="64" font-size="11" font-weight="700" fill="#0f172a">3. 视觉层：状态锁 + 光流 + 盲答</text>
+    <text x="460" y="82" font-size="10.2" fill="#334155">• 后台真实耗电产出为乘数前提</text>
+    <text x="460" y="96" font-size="10.2" fill="#334155">• 关粒子测双滚筒切向光流反转向</text>
+    <text x="460" y="112" font-size="10.2" fill="#0f766e">• 去 HUD 六机位洗牌二值问答</text>
+    <text x="658" y="92" font-size="16" fill="#475569">→</text>
+
+    <rect x="674" y="46" width="156" height="84" rx="5" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="684" y="64" font-size="11" font-weight="700" fill="#1e40af">4. 答题侧秒级眼睛</text>
+    <text x="684" y="82" font-size="10.2" fill="#1e3a8a">runtime_bridge 内置</text>
+    <text x="684" y="97" font-size="10.2" fill="#1e3a8a">2s 无头六宫格拼图快渲，</text>
+    <text x="684" y="112" font-size="10.2" fill="#1e3a8a">终结盲猜三维坐标</text>
+  </g>
+
+  <g transform="translate(18,218)">
+    <rect width="844" height="142" rx="7" fill="#f8fafc" stroke="#86efac" stroke-width="1.5"/>
+    <rect x="14" y="12" width="192" height="24" rx="4" fill="#15803d"/>
+    <text x="24" y="28" font-size="11.5" font-weight="700" fill="#ffffff">轨道 B：130-Mod 任务编译器</text>
+    <text x="218" y="28" font-size="11.5" font-weight="600" fill="#14532d">目标：复用现成完整开源仓库底座，低成本批量编译 10–15m 级 100% 确定性判分题供 RL 训练</text>
+
+    <rect x="14" y="46" width="258" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="24" y="64" font-size="11" font-weight="700" fill="#0f172a">路径 1：保留 90% 骨架局部挖空</text>
+    <text x="24" y="82" font-size="10.2" fill="#334155">• 保留原 Mod 注册表、UI 与外围代码</text>
+    <text x="24" y="97" font-size="10.2" fill="#334155">• 定向挖掉单个机器状态机或 .obj 部件</text>
+    <text x="24" y="113" font-size="10.2" fill="#15803d">• 判分：直接跑原仓 P2P 回归 + F2P 探针</text>
+
+    <rect x="288" y="46" width="268" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="298" y="64" font-size="11" font-weight="700" fill="#0f172a">路径 2：黄金仓库可逆多模态缺陷注入</text>
+    <text x="298" y="82" font-size="10.2" fill="#334155">• 自动向原版注入高频跨模态 Bug（翻转</text>
+    <text x="298" y="97" font-size="10.2" fill="#334155">  法线、错绑精灵帧、漏写 NBT、断挂载）</text>
+    <text x="298" y="113" font-size="10.2" fill="#15803d">• 判分：原版即天然真值，兼测修复与零误伤</text>
+
+    <rect x="572" y="46" width="258" height="84" rx="5" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="582" y="64" font-size="11" font-weight="700" fill="#0f172a">路径 3：同夹具「1 标准 + N 规则变体」</text>
+    <text x="582" y="82" font-size="10.2" fill="#334155">• 昂贵的电网/铁路测试驱动脚本零重写，</text>
+    <text x="582" y="97" font-size="10.2" fill="#334155">  参数化改写衰减公式、互锁优先级或配比</text>
+    <text x="582" y="113" font-size="10.2" fill="#15803d">• 判分：零夹具新增成本，彻底防预训练背板</text>
+  </g>
+</svg>

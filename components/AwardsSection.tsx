@@ -2,7 +2,7 @@ import { awards } from "@/data/awards";
 
 export default function AwardsSection() {
   return (
-    <section id="awards" className="py-14">
+    <section id="awards" className="py-14 bg-gray-50">
       <div className="max-w-5xl mx-auto px-6">
         <SectionTitle>Honors &amp; Awards</SectionTitle>
 
